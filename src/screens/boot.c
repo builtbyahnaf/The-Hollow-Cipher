@@ -12,6 +12,9 @@
 #include <math.h>
 #include <time.h>
 
+#include "game.h"
+#include "screens.h"
+
 //#include "filename.h"       // This file's header
 //#include "game.h"           // GameState / game logic
 //#include "ui_engine.h"      // UI utilities
@@ -35,15 +38,33 @@ static void helperFunction(void);
 
 
 /* ==================== PUBLIC FUNCTIONS ==================== */
-
-void functionName(void)
+void Boot_Draw(GameState *game)
 {
-    // TODO: implementation
+    (void)game;
+
+    printf("\033[2J\033[H");
+
+    printf("============================================\n");
+    printf("              THE HOLLOW CIPHER             \n");
+    printf("============================================\n\n");
+
+    printf("              [ SYSTEM BOOT ]               \n\n");
+
+    printf("        A confidential investigation         \n");
+    printf("        awaits your attention...\n\n");
+
+    printf("        Press ENTER to continue...\n");
 }
 
-void main(){
-    
+
+void Boot_Update(GameState *game)
+{
+    getchar();
+
+    Game_ChangeScreen(game, SCREEN_MAIN_MENU);
 }
+
+
 
 /* ==================== PRIVATE FUNCTIONS ==================== */
 

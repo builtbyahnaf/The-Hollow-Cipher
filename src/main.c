@@ -12,6 +12,8 @@
 #include <math.h>
 #include <time.h>
 
+#include "game.h"
+
 //#include "filename.h"       // This file's header
 //#include "game.h"           // GameState / game logic
 //#include "ui_engine.h"      // UI utilities
@@ -41,8 +43,13 @@ void functionName(void)
     // TODO: implementation
 }
 
-void main(){
-    
+int main(){
+     GameState game;
+
+    Game_Init(&game);
+    Game_Run(&game);
+    Game_Shutdown(&game);
+    return 0;
 }
 
 /* ==================== PRIVATE FUNCTIONS ==================== */
