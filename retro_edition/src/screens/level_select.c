@@ -23,14 +23,14 @@
 
 static const char *g_level_names[MAX_LEVELS] = {
     "CASE 01: THE SILENT PATIENT",
-    "CASE 02: SHADOWS OVER BURIGANGA",
-    "CASE 03: THE FINAL CIPHER"
+    "CASE 02: THE MISSING NOTEBOOK",
+    "CASE 03: THE PSYCHOPATH"
 };
 
 static const char *g_level_subtitles[MAX_LEVELS] = {
-    "A journalist's murder. A missing notebook. A poison no one expected.",
-    "The investigation deepens. Old secrets surface in the river delta.",
-    "All threads converge. The cipher reveals its hollow core."
+    "A journalist's murder, a missing notebook and a shocked patient.",
+    "The investigation deepens to uncover missing notebook.",
+    "A private investigation from the confidential documents."
 };
 
 /* ==================== SCREEN STATE ==================== */
@@ -56,14 +56,14 @@ void LevelSelect_Draw(GameState *game)
     int rows = ui_get_rows();
 
     /* Header */
-    ui_draw_text(1, 2, "SYS::CASE_DOSSIER // ACTIVE INVESTIGATIONS", CLR_MUTED);
+
     ui_draw_hline(2, 2, cols - 4, CLR_BORDER);
 
     ui_draw_text_centered(4, "[ CASE SELECTION ]", CLR_GOLD);
     ui_draw_text_centered(5, "Use UP/DOWN to navigate. ENTER to open case. ESC to return.", CLR_MUTED);
 
     /* Level list panel */
-    int panel_w = 70;
+    int panel_w = 80;
     int panel_h = MAX_LEVELS * 4 + 4;
     int panel_x = (cols - panel_w) / 2;
     int panel_y = 7;

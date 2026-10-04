@@ -1,0 +1,92 @@
+We are refactoring **The Hollow Cipher**.
+
+The current project uses a glitchy TUI. **Scrap the TUI entirely** and replace it with a simple Windows GUI using **Win32 API + GDI**, with no raylib or external GUI libraries for now.
+
+The purpose of this GUI is to provide a stable, retro-styled interface while we finish and test the core C backend. Remember to keep it polished because it is going to be shipped as special "Retro Edition" variant for gen z and boomers who love nostalgia. This will be pushed as a branch/variant release in original github repo.
+
+### Architecture
+
+The most important rule:
+
+> **The frontend may depend on the backend, but the backend must NEVER depend on the frontend.**
+
+Keep all game logic independent of the UI.
+
+Preserve existing backend logic wherever possible. Do not unnecessarily rewrite working code.
+
+The project should conceptually become:
+
+```text
+Core Backend
+    │
+    └── GameState / game logic / save-load / investigation
+                    ↑
+                    │
+             Frontend / UI
+                    │
+              Win32 + GDI
+```
+
+### Frontend
+
+Create a simple reusable UI layer supporting:
+
+* Windows application window
+* keyboard input
+* basic mouse input if useful
+* custom font (retro style)
+* custom text colors
+* panels/borders
+* buttons
+* screen switching
+* simple screen transitions
+* typewriter text effect
+* intentional retro glitch/flicker effects
+
+Keep the UI implementation simple and stable. Avoid unnecessary abstractions.
+
+Each screen should live in its own `.c` file where practical.
+
+Use a consistent screen structure as seen in the project.
+
+Create a centralized screen manager/state system rather than letting screens directly control each other.
+
+### Remove TUI
+
+Remove the active TUI implementation and all terminal-specific rendering/input logic, including:
+
+* ANSI escape rendering
+* terminal clearing
+* cursor manipulation
+* terminal redraw loops
+* terminal-specific input handling
+
+Do not try to fix the existing TUI.
+
+### Build
+
+Update the Makefile so the entire project can be built with:
+
+```bash
+make
+```
+
+and run with:
+
+```bash
+make run
+```
+
+Use proper object-file compilation and linking where practical.
+
+### Refactoring approach
+
+First inspect the existing project and identify the backend/frontend boundaries.
+
+Then refactor incrementally.
+
+**Do not rewrite the entire project at once.**
+
+First establish a working Win32 window and message loop, then migrate the screens one by one while keeping the backend functional.
+
+Do not add raylib yet. Raylib will be used later for the final polished GUI while reusing the same backend.
