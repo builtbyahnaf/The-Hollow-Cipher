@@ -10,7 +10,7 @@
 # ==============================================================================
 
 CC = gcc
-CFLAGS = -Wall -Wextra -Iinclude -O2
+CFLAGS = -Wall -Wextra -Iinclude -O2 -std=c99
 LDFLAGS = -mwindows -lgdi32 -luser32 -lkernel32
 
 TARGET = TheHollowCipher.exe
@@ -24,7 +24,10 @@ SRCS = src/main.c \
         src/screens/about.c \
         src/screens/stub_screen.c \
         src/screens/level_select.c \
-        src/screens/level_main.c
+        src/screens/level_main.c \
+        src/screens/evidence.c \
+        src/screens/history.c \
+        src/screens/interrogation.c
 
 OBJS = $(SRCS:.c=.o)
 
@@ -32,7 +35,7 @@ all: $(TARGET)
 
 $(TARGET): $(OBJS)
 	$(CC) $(OBJS) -o $(TARGET) $(LDFLAGS)
-	-copy /Y $(TARGET) HollowCipher.exe 2>nul || cp $(TARGET) HollowCipher.exe 2>/dev/null || true
+	@if exist $(TARGET) copy /Y $(TARGET) HollowCipher.exe >nul 2>&1 || cp $(TARGET) HollowCipher.exe 2>/dev/null || true
 
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@

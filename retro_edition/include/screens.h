@@ -57,4 +57,16 @@ void LevelMain_Draw(GameState *game);
 void LevelMain_HandleKey(GameState *game, KeyCode key);
 void LevelMain_HandleChar(GameState *game, char c);
 
+/* ---------- Evidence Archive (evidence.c) ---------- */
+void Evidence_Draw(GameState *game);
+void Evidence_HandleKey(GameState *game, KeyCode key);
+
+/* ---------- Past History (history.c) ---------- */
+void History_Draw(GameState *game);
+void History_HandleKey(GameState *game, KeyCode key);
+
+/* ---------- Interrogation (interrogation.c) ---------- */
+void Interrogation_Draw(GameState *game);
+void Interrogation_HandleKey(GameState *game, KeyCode key);
+
 #endif /* SCREENS_H */

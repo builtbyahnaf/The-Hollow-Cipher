@@ -93,10 +93,16 @@ static LRESULT CALLBACK MainWndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM 
                     LevelSelect_Draw(&g_game);
                     break;
                 case SCREEN_INTERROGATION:
+                    Interrogation_Draw(&g_game);
+                    break;
                 case SCREEN_FORENSICS:
-                case SCREEN_EVIDENCE:
-                case SCREEN_HISTORY:
                     StubScreen_Draw(&g_game);
+                    break;
+                case SCREEN_EVIDENCE:
+                    Evidence_Draw(&g_game);
+                    break;
+                case SCREEN_HISTORY:
+                    History_Draw(&g_game);
                     break;
                 case SCREEN_LEVEL_MAIN:
                     LevelMain_Draw(&g_game);
@@ -141,10 +147,16 @@ static LRESULT CALLBACK MainWndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM 
                             LevelSelect_HandleKey(&g_game, key);
                             break;
                         case SCREEN_INTERROGATION:
+                            Interrogation_HandleKey(&g_game, key);
+                            break;
                         case SCREEN_FORENSICS:
-                        case SCREEN_EVIDENCE:
-                        case SCREEN_HISTORY:
                             StubScreen_HandleKey(&g_game, key);
+                            break;
+                        case SCREEN_EVIDENCE:
+                            Evidence_HandleKey(&g_game, key);
+                            break;
+                        case SCREEN_HISTORY:
+                            History_HandleKey(&g_game, key);
                             break;
                         case SCREEN_LEVEL_MAIN:
                             LevelMain_HandleKey(&g_game, key);
