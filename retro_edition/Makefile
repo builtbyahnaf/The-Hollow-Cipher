@@ -13,7 +13,7 @@ CC = gcc
 CFLAGS = -Wall -Wextra -Iinclude -O2 -std=c99
 LDFLAGS = -mwindows -lgdi32 -luser32 -lkernel32
 
-TARGET = TheHollowCipher.exe
+TARGET = TheHollowCipherRetroEdition.exe
 
 SRCS = src/main.c \
         src/game.c \
