@@ -31,6 +31,7 @@
 #include <wchar.h>
 #include <windows.h>
 #include <stdbool.h>
+#include <stdint.h>
 
 /* ==================== COLOR PALETTE ====================
  * Retro dark-terminal color scheme.  All values are COLORREF (Win32 RGB).
@@ -55,6 +56,23 @@
 #define CLR_HIGHLIGHT_FG  RGB(255, 255, 255)    /* Selected menu-item text (bright white)   */
 
 
+/* ==================== UI TYPES & DATA STRUCTURES ==================== */
+typedef enum
+{
+    UI_ALIGN_LEFT = 0,
+    UI_ALIGN_CENTER,
+    UI_ALIGN_RIGHT
+} UITextAlign;
+
+typedef struct
+{
+    int row;
+    int col;
+    int width;
+    int height;
+} UIGridRect;
+
+
 /* ==================== KEY CODES ====================
  * Abstracted keyboard input codes.  Screens receive these instead of
  * raw Win32 virtual key codes, keeping screen logic portable.
@@ -69,6 +87,10 @@ typedef enum
     KEY_1, KEY_2, KEY_3, KEY_4, KEY_5,
     KEY_Y, KEY_N
 } KeyCode;
+
+
+/* Forward declaration for GameState and ScreenID */
+#include "game.h"
 
 
 /* ==================== INITIALIZATION / SHUTDOWN ====================
@@ -147,6 +169,7 @@ void ui_draw_text_in_region(int row, int region_col, int region_width,
  */
 void ui_draw_panel(int row, int col, int width, int height,
                    const char *title);
+void ui_draw_panel_rect(const UIGridRect *rect, const char *title);
 
 
 /* ==================== LINE DRAWING ====================
@@ -177,6 +200,7 @@ void ui_draw_menu_item(int row, int col, int width, const char *text,
  *                or clearing specific regions.
  */
 void ui_fill_rect(int row, int col, int width, int height, COLORREF color);
+void ui_fill_grid_rect(const UIGridRect *rect, COLORREF color);
 
 
 /* ==================== INPUT TRANSLATION ====================
@@ -191,9 +215,6 @@ KeyCode ui_translate_key(WPARAM wParam);
  * Retro CRT raster / shutter transition system.
  * Smoothly wipes between screens with authentic arcade phosphor scanline shutter animation.
  */
-#include <stdint.h>
-#include "game.h"
-
 void ui_start_transition(ScreenID target_screen);
 bool ui_is_transitioning(void);
 void ui_update_transition(GameState *game);

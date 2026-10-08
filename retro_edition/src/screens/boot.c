@@ -62,7 +62,10 @@ void Boot_Draw(GameState *game)
 
     char typed_buffer[128];
     memset(typed_buffer, 0, sizeof(typed_buffer));
-    strncpy(typed_buffer, TITLE_TEXT, chars_revealed);
+    if (chars_revealed > 0) {
+        memcpy(typed_buffer, TITLE_TEXT, (size_t)chars_revealed);
+        typed_buffer[chars_revealed] = '\0';
+    }
 
     if (!is_typing_done) {
         /* While typing, append an arcade blinking phosphor cursor block */

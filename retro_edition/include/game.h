@@ -18,6 +18,7 @@
 #define GAME_H
 
 #include <stdbool.h>
+#include <stddef.h>
 
 /* ==================== SCREEN IDENTIFIERS ====================
  * Every screen the player can visit has a unique ID.
@@ -45,8 +46,25 @@ typedef enum
 } ScreenID;
 
 
+/* ==================== GAME DIFFICULTY & STATUS ENUMS ==================== */
+typedef enum
+{
+    DIFFICULTY_RECRUIT = 0,     /* Guided investigation hints                 */
+    DIFFICULTY_DETECTIVE,       /* Standard retro detective experience         */
+    DIFFICULTY_HARD_BOILED      /* Uncompromising noir difficulty              */
+} GameDifficulty;
+
+typedef enum
+{
+    SESSION_STATUS_FRESH = 0,   /* Newly initialized investigation             */
+    SESSION_STATUS_ACTIVE,      /* Active case investigation underway          */
+    SESSION_STATUS_PAUSED,      /* Suspended in menus                          */
+    SESSION_STATUS_RESOLVED     /* All active dossiers cleared                 */
+} SessionStatus;
+
+
 /* ==================== GAME SETTINGS ====================
- * Player-configurable options.
+ * Player-adjustable settings.
  * Stored inside GameState so they:
  *   • Persist across screen transitions within a session
  *   • Travel with the game state when save/load is implemented
@@ -60,6 +78,36 @@ typedef struct
     int music_volume;      /* Background music volume: 0 – 100  (default 60)  */
     int vsync;             /* Vertical sync toggle: 0=off, 1=on (default 1)   */
 } GameSettings;
+
+
+/* ==================== DYNAMIC CASE RECORD ====================
+ * Runtime tracking and unlock state for each investigation case.
+ */
+typedef struct
+{
+    int  case_id;          /* 1-based case index                          */
+    bool unlocked;         /* true if accessible by detective             */
+    bool solved;           /* true if case conclusion reached             */
+    int  clues_discovered; /* number of pieces of evidence found          */
+    int  best_score;       /* maximum score awarded for this case         */
+} CaseRecord;
+
+
+/* ==================== DYNAMIC BACKEND SESSION ====================
+ * Heap-allocated session data container managed by GameState.
+ * Encapsulates dynamic arrays, session UUID, and detective notebook.
+ */
+typedef struct
+{
+    SessionStatus   status;
+    GameDifficulty  difficulty;
+    char           *session_uuid;        /* Dynamically allocated UUID string      */
+    CaseRecord     *cases;               /* Dynamically allocated CaseRecord array */
+    int             total_cases;         /* Number of registered cases             */
+    char           *investigation_notes; /* Dynamically allocated notes buffer     */
+    size_t          notes_size;          /* Current length of notes string         */
+    size_t          notes_capacity;      /* Capacity of notes buffer               */
+} GameSession;
 
 
 /* ==================== GAME STATE ====================
@@ -78,6 +126,8 @@ typedef struct
     int score;                 /* accumulated player score                    */
 
     GameSettings settings;     /* player-adjustable settings (see above)      */
+
+    GameSession *session;      /* Dynamically allocated backend session state */
 } GameState;
 
 
@@ -106,5 +156,14 @@ void Game_Shutdown(GameState *game);
  * which signals the Win32 message loop to post WM_CLOSE.
  */
 void Game_ChangeScreen(GameState *game, ScreenID nextScreen);
+
+/* ==================== SESSION & CASE HELPERS ==================== */
+bool          Game_IsCaseUnlocked(const GameState *game, int case_id);
+void          Game_UnlockCase(GameState *game, int case_id);
+void          Game_MarkCaseSolved(GameState *game, int case_id, int score);
+void          Game_AppendNote(GameState *game, const char *note);
+const char   *Game_GetSessionUUID(const GameState *game);
+SessionStatus Game_GetSessionStatus(const GameState *game);
+void          Game_SetSessionStatus(GameState *game, SessionStatus status);
 
 #endif /* GAME_H */
