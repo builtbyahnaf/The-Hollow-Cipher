@@ -8,6 +8,7 @@ int main(){
 
     char selection;
     //Todo: add UI_framework.c if possible
+    //comment
     printf("-----------------------------------------------------------------\n");
     printf("|               T H E   H O L L O W    C I P H E R               |\n");
     printf("-----------------------------------------------------------------\n");
