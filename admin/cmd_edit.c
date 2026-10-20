@@ -3,6 +3,7 @@
 #include <ctype.h>
 #include <cmd_edit.h>
 #include <string.h>
+#include <time.h>
 #include "admin_panel.h"
 
 enum LEVELS {
@@ -142,6 +143,58 @@ const char* get_component_filename(int component) {
     }
 }
 
+void write_log(int LEVEL, int COMPONENT) {
+    const char* filename = get_component_filename(COMPONENT);
+    if (!filename) {
+        return;
+    }
+
+    char filepath[256];
+    snprintf(filepath, sizeof(filepath), "data/level_%d/%s", LEVEL, filename);
+
+    time_t now = time(NULL);
+    struct tm* tm_info = localtime(&now);
+
+    char time_str[128];
+    strftime(time_str, sizeof(time_str), "%d, %B, %Y, %A, %I:%M:%S %p", tm_info);
+
+    char new_log[512];
+    snprintf(new_log, sizeof(new_log), "Edited %s on (%s)\n", filepath, time_str);
+
+    FILE* log_file = fopen("data/edit_log.thcdb", "r");
+    char* existing_logs = NULL;
+    size_t existing_size = 0;
+
+    if (log_file) {
+        fseek(log_file, 0, SEEK_END);
+        existing_size = ftell(log_file);
+        rewind(log_file);
+
+        if (existing_size > 0) {
+            existing_logs = malloc(existing_size + 1);
+            if (existing_logs) {
+                fread(existing_logs, 1, existing_size, log_file);
+                existing_logs[existing_size] = '\0';
+            }
+        }
+        fclose(log_file);
+    }
+
+    log_file = fopen("data/edit_log.thcdb", "w");
+    if (!log_file) {
+        free(existing_logs);
+        return;
+    }
+
+    fputs(new_log, log_file);
+    if (existing_logs) {
+        fputs(existing_logs, log_file);
+        free(existing_logs);
+    }
+
+    fclose(log_file);
+}
+
 void open_editor(int LEVEL, int COMPONENT) {
     if (LEVEL < 1 || LEVEL > 2) {
         printf("Error: Invalid level\n");
@@ -169,6 +222,8 @@ void open_editor(int LEVEL, int COMPONENT) {
 
     printf("Opening: %s\n", filepath);
     system(command);
+
+    write_log(LEVEL, COMPONENT);
 
     printf("File editing complete. Changes saved.\n");
 }
