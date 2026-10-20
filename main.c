@@ -3,12 +3,18 @@
 #include <ctype.h>
 #include <stdlib.h>
 #include "level_select.h"
+#include "admin_panel.h"
 
-int main(int argc, char *argv[]){
+int main(int argc, char *argv[]) {
+    if (argc >= 3 && strcmp(argv[1], "admin_mode") == 0 && strcmp(argv[2], "admin123") == 0) {
+        show_panel();
+        return 0;
+    } else {
+        printf("Invalid parameters!\n");
+    }
 
     char selection;
-    //Todo: add UI_framework.c later if possible
-    
+
     printf("-----------------------------------------------------------------\n");
     printf("|               T H E   H O L L O W    C I P H E R               |\n");
     printf("-----------------------------------------------------------------\n");
@@ -29,32 +35,27 @@ int main(int argc, char *argv[]){
         goto RETRY;
     } else if (selection >= 'A' && selection <= 'Z') {
         selection = tolower(selection);
-    } else{
-
     }
 
-    switch (selection)
-    {
+    switch (selection) {
     case 'p':
-        /* code */
         system("cls");
         show_level_selection();
         break;
 
     case 'o':
-        /* code */
         break;
 
     case 'a':
-        /* code */
         break;
-    
+
     case 'e':
-        /* code */
         break;
-    
+
     default:
+    printf("Invalid parameters!\n");
         break;
     }
+    
     return 0;
 }

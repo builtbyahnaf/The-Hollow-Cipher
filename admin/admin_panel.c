@@ -1,5 +1,8 @@
 #include <stdio.h>
 #include "admin_panel.h"
+#include <ctype.h>
+#include <stdlib.h>
+#include <cmd_edit.h>
 
 void show_panel(){
     char selection;
@@ -38,7 +41,7 @@ void show_panel(){
     case 'e':
         /* code */
         system("cls");
-        show_level_selection();
+        select_level();
         break;
 
     case 'l':
@@ -56,5 +59,4 @@ void show_panel(){
     default:
         break;
     }
-    return 0;
 }

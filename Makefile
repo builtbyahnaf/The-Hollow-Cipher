@@ -2,7 +2,7 @@ CC = gcc
 CFLAGS = -Wall -Wextra -Iinclude
 
 TARGET = thc.exe
-SRC = main.c level_select.c progress.c
+SRC = main.c level_select.c progress.c admin/admin_panel.c admin/cmd_edit.c
 OBJ = $(SRC:%.c=obj/%.o)
 
 .PHONY: all clean
