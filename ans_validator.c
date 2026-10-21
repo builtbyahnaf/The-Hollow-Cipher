@@ -7,55 +7,87 @@
 
 #include "ans_validator.h"
 
-
 bool is_ans_correct(char *response, FILE *solution_path)
 {
-    bool ans_valid = false;
-
     if (response == NULL || solution_path == NULL)
     {
         return false;
     }
 
-    char ans[35];
-    char user_ans[35];
+    char ans[256];
+    char line[256];
+    bool found_answer = false;
 
     rewind(solution_path);
 
-    if (fgets(ans, sizeof(ans), solution_path) == NULL)
+    while (fgets(line, sizeof(line), solution_path) != NULL)
+    {
+        line[strcspn(line, "\r\n")] = '\0';
+
+        if (strcmp(line, "[Answer]") == 0)
+        {
+            if (fgets(ans, sizeof(ans), solution_path) == NULL)
+            {
+                return false;
+            }
+
+            ans[strcspn(ans, "\r\n")] = '\0';
+            found_answer = true;
+            break;
+        }
+    }
+
+    if (!found_answer)
     {
         return false;
     }
 
-    ans[strcspn(ans, "\r\n")] = '\0';
+    /* Remove leading spaces from the correct answer. */
+    char *correct = ans;
 
-    size_t i = 0;
-
-    while (response[i] != '\0' && i < sizeof(user_ans) - 1)
+    while (isspace((unsigned char)*correct))
     {
-        user_ans[i] = (char)tolower(
-            (unsigned char)response[i]
-        );
-        i++;
+        correct++;
     }
 
-    user_ans[i] = '\0';
+    /* Remove trailing spaces from the correct answer. */
+    size_t len = strlen(correct);
 
-    for (i = 0; ans[i] != '\0'; i++)
+    while (len > 0 && isspace((unsigned char)correct[len - 1]))
     {
-        ans[i] = (char)tolower((unsigned char)ans[i]);
-    }
-if (strcmp(user_ans, ans) == 0)
-{
-    ans_valid = true;
-}
-
-    else
-    {
-        ans_valid = false;
+        correct[--len] = '\0';
     }
 
-    return ans_valid;
+    /* Remove leading spaces from the user's response. */
+    while (isspace((unsigned char)*response))
+    {
+        response++;
+    }
+
+    /* Remove trailing spaces from the user's response. */
+    size_t response_len = strlen(response);
+
+    while (response_len > 0 &&
+           isspace((unsigned char)response[response_len - 1]))
+    {
+        response_len--;
+    }
+
+    if (response_len != strlen(correct))
+    {
+        return false;
+    }
+
+    for (size_t i = 0; i < response_len; i++)
+    {
+        if (tolower((unsigned char)response[i]) !=
+            tolower((unsigned char)correct[i]))
+        {
+            return false;
+        }
+    }
+
+    return true;
 }
 
 char *parse_solution_desc(FILE *sol)
@@ -65,11 +97,13 @@ char *parse_solution_desc(FILE *sol)
         return NULL;
     }
 
+    rewind(sol);
+
     int capacity = 500;
     int length = 0;
     int ch;
 
-    char *buffer = malloc(capacity * sizeof(char));
+    char *buffer = malloc((size_t)capacity);
 
     if (buffer == NULL)
     {
@@ -80,12 +114,15 @@ char *parse_solution_desc(FILE *sol)
     {
         if (length + 1 >= capacity)
         {
+            if (capacity > 1000000 / 2)
+            {
+                free(buffer);
+                return NULL;
+            }
+
             int new_capacity = capacity * 2;
 
-            char *temp = realloc(
-                buffer,
-                new_capacity * sizeof(char)
-            );
+            char *temp = realloc(buffer, (size_t)new_capacity);
 
             if (temp == NULL)
             {
@@ -97,8 +134,7 @@ char *parse_solution_desc(FILE *sol)
             capacity = new_capacity;
         }
 
-        buffer[length] = (char)ch;
-        length++;
+        buffer[length++] = (char)ch;
     }
 
     if (length == 0)
@@ -111,4 +147,3 @@ char *parse_solution_desc(FILE *sol)
 
     return buffer;
 }
-
