@@ -18,7 +18,7 @@ void view_edit_logs(void) {
     int count = 0;
 
     while (fgets(line, sizeof(line), log_file)) {
-        size_t len = strlen(line);
+        int len = strlen(line);
         if (len > 0 && line[len - 1] == '\n') {
             line[len - 1] = '\0';
         }
