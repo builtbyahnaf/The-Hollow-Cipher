@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include "level_select.h"
 #include "main.h"
+#include "game_main.h"
 
 void show_level_selection(){
     int selected_level;
@@ -30,6 +31,8 @@ void show_level_selection(){
         system("cls");
         //going back to previous screen
         game_init();
+    } else {
+        load_level(selected_level);
     }
     
 
