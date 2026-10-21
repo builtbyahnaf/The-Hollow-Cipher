@@ -7,11 +7,10 @@
 
 #include "ans_validator.h"
 
-bool is_ans_correct(char *response, FILE *solution_path)
-{
-    if (response == NULL || solution_path == NULL)
-    {
+bool is_ans_correct(char *response, FILE *solution_path) {
+    if (response == NULL || solution_path == NULL) {
         return false;
+        printf("Invalid response or file path.");
     }
 
     char ans[256];

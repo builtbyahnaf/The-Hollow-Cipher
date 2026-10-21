@@ -1,2 +1,4 @@
 .make
+.make/*
 .vscode
+.vscode/*
