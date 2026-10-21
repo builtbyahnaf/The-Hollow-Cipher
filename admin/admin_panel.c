@@ -8,6 +8,7 @@ void show_panel(){
     char selection;
     //Todo: add UI_framework.c later if possible
     
+    
     printf("-----------------------------------------------------------------\n");
     printf("|               T H E   H O L L O W    C I P H E R               |\n");
     printf("-----------------------------------------------------------------\n");

@@ -2,30 +2,84 @@
 #include <string.h>
 #include <ctype.h>
 #include <stdlib.h>
+#include <windows.h>
 #include "level_select.h"
 #include "admin_panel.h"
+#include "color_palette.h"
+#include "main.h"
 
 int main(int argc, char *argv[]) {
     if (argc >= 3 && strcmp(argv[1], "admin_mode") == 0 && strcmp(argv[2], "admin123") == 0) {
         show_panel();
         return 0;
-    } else {
-        printf("Invalid parameters!\n");
     }
 
+    
+    //Setting colors
+
+    printf(BG_LEATHER GOLD);
+    system("cls");
+
+    game_init();
+    
+    return 0;
+}
+void game_init(){
     char selection;
+    char title_text[] = "T H E   H O L L O W    C I P H E R";
 
     printf("-----------------------------------------------------------------\n");
-    printf("|               T H E   H O L L O W    C I P H E R               |\n");
+    printf("|               ");
+
+    //The typewriter animation
+    int delay = 35;  // Typing speed in milliseconds
+
+    // The animation lasts for title_text length x delay ms = 35 x 40 = 1400 ms which is equivalent to 1.4 sec
+
+    for (int i = 0; title_text[i] != '\0'; i++) {
+        printf("%c", title_text[i]);
+        fflush(stdout);
+        Sleep(delay);
+    }
+
+    printf("               |\n");
+
     printf("-----------------------------------------------------------------\n");
 
     printf("\n \n");
 
+    Sleep(100);
+
     RETRY:
-    printf("PLAY [P]\n");
-    printf("OPTIONS [O]\n");
-    printf("ABOUT AND CREDITS [A]\n");
-    printf("EXIT [E]\n\n");
+
+    for (int j = 0; j < 4; j++) {
+        switch (j) {
+        case 0:
+            /* code */
+            printf("PLAY [P]\n");
+            fflush(stdout);
+            Sleep(250);
+            break;
+        case 1:
+            printf("OPTIONS [O]\n");
+            fflush(stdout);
+            Sleep(250);
+            break;
+        case 2:
+            printf("ABOUT AND CREDITS [A]\n");
+            fflush(stdout);
+            Sleep(250);
+            break;
+        case 3:
+            printf("EXIT [E]\n\n");
+            fflush(stdout);
+            Sleep(250);
+            break;
+        default:
+            break;
+        }
+        
+    }
 
     printf("ENTER SELECTION: ");
     scanf("%c", &selection);
@@ -56,6 +110,6 @@ int main(int argc, char *argv[]) {
     printf("Invalid parameters!\n");
         break;
     }
-    
-    return 0;
+
+
 }
