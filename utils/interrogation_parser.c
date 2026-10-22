@@ -66,7 +66,7 @@ static int is_header(const char *text) {
         text++;
     }
 
-    size_t length = strlen(text);
+    int length = strlen(text);
 
     // A header must begin with '[' and end with ']'.
     return length >= 2 &&
@@ -229,56 +229,6 @@ void free_statements(void) {
 
 /* Old logic codes (doesn't work)
 
-
-static int statement_count = 0;
-static SuspectStatements *statements = NULL;
-
-static char *copy_text(const char *text)
-{
-    char *copy = malloc(strlen(text) + 1);
-
-    if (copy != NULL)
-    {
-        strcpy(copy, text);
-    }
-
-    return copy;
-}
-
-static void trim_spaces(char *text)
-{
-    char *start = text;
-
-    while (isspace((unsigned char)*start))
-    {
-        start++;
-    }
-
-    if (start != text)
-    {
-        memmove(text, start, strlen(start) + 1);
-    }
-
-    size_t len = strlen(text);
-
-    while (len > 0 && isspace((unsigned char)text[len - 1]))
-    {
-        text[--len] = '\0';
-    }
-}
-
-static int is_suspect_header(const char *line)
-{
-    while (isspace((unsigned char)*line))
-    {
-        line++;
-    }
-
-    return line[0] == '[' &&
-           strchr(line, ']') != NULL &&
-           strcmp(line, "[Interrogation]") != 0;
-}
-
 SuspectStatements *parse_interrogation(FILE *file_path)
 {
     char line[2048];
@@ -367,21 +317,4 @@ SuspectStatements *parse_interrogation(FILE *file_path)
     return statements;
 }
 
-int statements_count(void)
-{
-    return statement_count;
-}
-
-void free_statements(void)
-{
-    for (int i = 0; i < statement_count; i++)
-    {
-        free(statements[i].name);
-        free(statements[i].statement);
-    }
-
-    free(statements);
-    statements = NULL;
-    statement_count = 0;
-}
 */
