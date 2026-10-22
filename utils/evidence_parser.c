@@ -6,6 +6,9 @@
 
 #include "evidence_parser.h"
 
+
+/* Old immplementationn (doesn't work)
+*/
 static int total_evidence = 0;
 static Evidence *evidence_list = NULL;
 

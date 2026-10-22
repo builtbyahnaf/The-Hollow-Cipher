@@ -3,5 +3,6 @@
 
 void load_level(int level);
 void suspense_view();
+void handle_menu(int level);
 
 #endif

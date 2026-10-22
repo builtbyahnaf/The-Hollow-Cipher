@@ -1,9 +1,10 @@
 #include <stdio.h>
 //#include "progress.h"
 #include <stdlib.h>
+#include <windows.h>
 #include "level_select.h"
 #include "main.h"
-#include <windows.h>
+#include "interrogation.h"
 #include "game_main.h"
 
 void load_level(int level) {
@@ -30,7 +31,7 @@ void load_level(int level) {
     }
 
     fclose(fp);
-    handle_menu();
+    handle_menu(level);
 }
 void suspense_view(){
     system("cls");
@@ -56,7 +57,7 @@ void suspense_view(){
     Sleep(500);
     return;
 }
-void handle_menu(){
+void handle_menu(int level){
     char selection;
     printf("\n \n");
 
@@ -101,7 +102,7 @@ void handle_menu(){
     }
 
     printf("ENTER SELECTION: ");
-    scanf("%c", &selection);
+    scanf(" %c", &selection);
 
     if (selection < 'A' || selection > 'z') {
         printf("Invalid selection. Please try again.\n");
@@ -114,10 +115,14 @@ void handle_menu(){
     case 'e':
         system("cls");
         unl++;
+        
         break;
 
     case 'i':
+        system("cls");
         unl++;
+        //to do: pass level int
+        interrogation_menu_init(level);
         break;
 
     case 'h':
