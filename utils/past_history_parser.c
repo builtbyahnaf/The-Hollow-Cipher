@@ -1,4 +1,3 @@
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -6,130 +5,169 @@
 
 #include "past_history_parser.h"
 
-static int total_history = 0;
-static PastHistory *history_list = NULL;
+static int history_count = 0;
+static PastHistory *ph_list = NULL;
 
-static void trim_spaces(char *text)
-{
-    char *start = text;
+static char *copy_string(const char *source) {
+    char *copy = malloc(strlen(source) + 1);
 
-    while (isspace((unsigned char)*start))
-        start++;
+    if (copy == NULL) {
+        return NULL;
+    }
 
-    if (start != text)
-        memmove(text, start, strlen(start) + 1);
-
-    size_t len = strlen(text);
-
-    while (len > 0 && isspace((unsigned char)text[len - 1]))
-        text[--len] = '\0';
+    strcpy(copy, source);
+    return copy;
 }
 
-PastHistory *parse_past_history(FILE *file)
-{
+static char *trim_whitespace(char *text) {
+    while (isspace((unsigned char)*text)) {
+        text++;
+    }
+
+    if (*text == '\0') {
+        return text;
+    }
+
+    char *end = text + strlen(text) - 1;
+
+    while (end > text && isspace((unsigned char)*end)) {
+        end--;
+    }
+
+    *(end + 1) = '\0';
+
+    return text;
+}
+
+static void remove_newline(char *text) {
+    text[strcspn(text, "\r\n")] = '\0';
+}
+
+static int is_header(const char *text) {
+    while (isspace((unsigned char)*text)) {
+        text++;
+    }
+
+    size_t length = strlen(text);
+
+    return length >= 2 &&
+           text[0] == '[' &&
+           text[length - 1] == ']';
+}
+
+static void clear_history(void) {
+    for (int i = 0; i < history_count; i++) {
+        free(ph_list[i].name);
+        free(ph_list[i].history);
+    }
+
+    free(ph_list);
+
+    ph_list = NULL;
+    history_count = 0;
+}
+
+static int append_history(char **history, const char *line) {
+    size_t old_length = strlen(*history);
+    size_t line_length = strlen(line);
+
+    char *temp = realloc(
+        *history,
+        old_length + line_length + 1
+    );
+
+    if (temp == NULL) {
+        return 0;
+    }
+
+    *history = temp;
+
+    memcpy(
+        *history + old_length,
+        line,
+        line_length + 1
+    );
+
+    return 1;
+}
+
+PastHistory *parse_past_history(FILE *file_path) {
     char line[2048];
 
-    if (file == NULL)
+    clear_history();
+
+    if (file_path == NULL) {
         return NULL;
+    }
 
-    free_past_history();
-    rewind(file);
+    while (fgets(line, sizeof(line), file_path) != NULL) {
+        remove_newline(line);
 
-    while (fgets(line, sizeof(line), file) != NULL)
-    {
-        line[strcspn(line, "\r\n")] = '\0';
-        trim_spaces(line);
-
-        if (line[0] == '[')
-        {
-            char *end = strchr(line, ']');
-
-            if (end == NULL)
-                continue;
-
-            *end = '\0';
-
-            char *name = line + 1;
-            trim_spaces(name);
+        if (is_header(line)) {
+            line[strlen(line) - 1] = '\0';
+            char *name = trim_whitespace(line + 1);
 
             if (strcmp(name, "Past History") == 0 ||
-                strcmp(name, "Investigative Direction") == 0)
-            {
+                strcmp(name, "Investigative Direction") == 0) {
                 continue;
             }
 
             PastHistory *temp = realloc(
-                history_list,
-                (total_history + 1) * sizeof(PastHistory)
+                ph_list,
+                (history_count + 1) * sizeof(PastHistory)
             );
 
-            if (temp == NULL)
-            {
-                free_past_history();
+            if (temp == NULL) {
+                clear_history();
+                fclose(file_path);
                 return NULL;
             }
 
-            history_list = temp;
+            ph_list = temp;
 
-            history_list[total_history].name = malloc(strlen(name) + 1);
-            history_list[total_history].history = calloc(1, sizeof(char));
+            ph_list[history_count].name = copy_string(name);
+            ph_list[history_count].history = copy_string("");
 
-            if (history_list[total_history].name == NULL ||
-                history_list[total_history].history == NULL)
-            {
-                free(history_list[total_history].name);
-                free(history_list[total_history].history);
-                free_past_history();
+            if (ph_list[history_count].name == NULL ||
+                ph_list[history_count].history == NULL) {
+
+                free(ph_list[history_count].name);
+                free(ph_list[history_count].history);
+
+                clear_history();
+                fclose(file_path);
                 return NULL;
             }
 
-            strcpy(history_list[total_history].name, name);
-            total_history++;
-        }
-        else if (total_history > 0 && line[0] != '\0')
-        {
-            PastHistory *current = &history_list[total_history - 1];
+            history_count++;
+        } else if (history_count > 0) {
+            if (!append_history(
+                    &ph_list[history_count - 1].history,
+                    line) ||
+                !append_history(
+                    &ph_list[history_count - 1].history,
+                    "\n")) {
 
-            size_t old_len = strlen(current->history);
-            size_t line_len = strlen(line);
-
-            char *temp = realloc(
-                current->history,
-                old_len + line_len + 2
-            );
-
-            if (temp == NULL)
-            {
-                free_past_history();
+                clear_history();
+                fclose(file_path);
                 return NULL;
             }
-
-            current->history = temp;
-
-            if (old_len > 0)
-                current->history[old_len++] = '\n';
-
-            memcpy(current->history + old_len, line, line_len + 1);
         }
     }
 
-    return history_list;
-}
+    fclose(file_path);
 
-int past_history_count(void)
-{
-    return total_history;
-}
-
-void free_past_history(void)
-{
-    for (int i = 0; i < total_history; i++)
-    {
-        free(history_list[i].name);
-        free(history_list[i].history);
+    if (history_count == 0) {
+        return NULL;
     }
 
-    free(history_list);
-    history_list = NULL;
-    total_history = 0;
+    return ph_list;
+}
+
+int past_history_count(void) {
+    return history_count;
+}
+
+void free_past_history(void) {
+    clear_history();
 }

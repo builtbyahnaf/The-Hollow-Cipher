@@ -7,51 +7,57 @@
 
 #include "color_palette.h"
 
-int handle_input(SuspectStatements *sus_sts, int count, int level);
+void handle_input(int count);
+void show_statement(int index);
+
+SuspectStatements *sus_sts;
+int level;
+
+enum KEYS {
+    PREFIX_A = 0,
+    PREFIX_B = 224,
+    ESCAPE = 27,
+    UP_ARROW = 72,
+    DOWN_ARROW = 80,
+    ENTER = 13
+};
 
 // Display the suspect menu and return the selected array index.
-// Returns -1 if the user presses Escape.
-void interrogation_menu_init(int level) {
-    
-
-    // There is nothing to display if no suspects were loaded.
-    //hide_scrollbar();
-
-    //enable_ansi_colors();
+void interrogation_menu_init(int _level) {
+    level = _level;
     char interr_path[86];
     snprintf(interr_path, sizeof(interr_path), "data/level_%d/interrogation.txt", level);
 
+    //Check validity to prevent crash
     FILE *fp = fopen(interr_path, "r");
     if (!fp) {
         printf("Error: Could not open interrogation file for level %d\n", level);
         return;
     }
 
-    SuspectStatements *sus_sts = parse_interrogation(fp);
+    sus_sts = parse_interrogation(fp);
 
-    handle_input(sus_sts, statements_count(), level);
-
-    
+    handle_input(statements_count());
 }
 
-int handle_input(SuspectStatements *sus_sts, int count, int level){
+void handle_input(int count){
     int selected = 0;
     int key;
 
     if (sus_sts == NULL || count <= 0) {
-        return -1;
+        return;
     }
 
     while (1) {
         // Clear the screen and move the cursor to the top-left.
-        printf("\033[2J\033[H");
+        system("cls");
 
         // Apply background and foreground colors from main.c
         printf(BG_LEATHER GOLD);
 
-        printf("====================================\n");
-        printf("         THE HOLLOW CIPHER\n");
-        printf("====================================\n\n");
+        printf("-----------------------------------------------------------------\n");
+        printf("|             I N T E R R O G A T I O N   P A N E L               |\n");
+        printf("-----------------------------------------------------------------\n\n");
         printf("Select a suspect:\n\n");
 
         // Display every suspect in the array.
@@ -59,29 +65,31 @@ int handle_input(SuspectStatements *sus_sts, int count, int level){
 
             if (i == selected) {
                 // Highlight selected suspect with gold foreground
-                printf(GOLD " > %s " RESET "\n", sus_sts[i].name);
+                printf(BG_ACID_LIME CRIMSON " > [ %s ] " "\n", sus_sts[i].name);
             } else {
                 // Normal suspects use ivory foreground
-                printf(IVORY "   %s" RESET "\n", sus_sts[i].name);
+                printf(BG_LEATHER GOLD "   [ %s ]" "\n", sus_sts[i].name);
             }
+            printf(BG_LEATHER GOLD);
         }
 
-        printf("\n" IVORY "UP/DOWN: Navigate | ENTER: Select | ESC: Exit" RESET "\n");
+        printf("\n"  "UP/DOWN: Navigate | ENTER: Select | ESC: Exit" "\n");
+        
 
         // Wait for one keyboard input.
         key = _getch();
 
         // Escape exits the menu.
-        if (key == 27) {
+        if (key == ESCAPE) {
             system("cls");
-            load_level(level);
+            load_level(level, false);
         }
 
         // Arrow keys produce a prefix followed by a key code.
-        if (key == 0 || key == 224) {
+        if (key == PREFIX_A || key == PREFIX_B) {
             key = _getch();
 
-            if (key == 72) {
+            if (key == UP_ARROW) {
                 // Up arrow: move to the previous suspect.
                 selected--;
 
@@ -90,7 +98,7 @@ int handle_input(SuspectStatements *sus_sts, int count, int level){
                     selected = count - 1;
                 }
             }
-            else if (key == 80) {
+            else if (key == DOWN_ARROW) {
                 // Down arrow: move to the next suspect.
                 selected++;
 
@@ -101,9 +109,34 @@ int handle_input(SuspectStatements *sus_sts, int count, int level){
             }
             continue;
         }
-        else if (key == 13) {
-            // Enter: return the selected suspect's index.
-            return selected;
+        else if (key == ENTER) {
+            // Enter: View the suspect's statement
+            show_statement(selected);
         }
     }
+}
+
+void show_statement(int index){
+    system("cls");
+
+    
+    printf("|             INTERROGATION: %s               |\n\n", sus_sts[index].name);
+    
+    printf("Statement:\n\n");
+    printf("%s", sus_sts[index].statement);
+
+    printf("\n\nPress ESC to go back");
+    int key;
+
+    while (1)
+    {
+        key = _getch();
+
+        // Escape exits the menu.
+        if (key == ESCAPE) {
+            system("cls");
+            break;
+        }
+    }
+    handle_input(statements_count());
 }

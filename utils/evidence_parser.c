@@ -1,4 +1,3 @@
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -6,176 +5,178 @@
 
 #include "evidence_parser.h"
 
+static int ev_count = 0;
+static Evidence *ev_list = NULL;
 
-/* Old immplementationn (doesn't work)
-*/
-static int total_evidence = 0;
-static Evidence *evidence_list = NULL;
+static char *copy_string(const char *source) {
+    char *copy = malloc(strlen(source) + 1);
 
-static char *copy_text(const char *text)
-{
-    char *copy = malloc(strlen(text) + 1);
-
-    if (copy != NULL)
-    {
-        strcpy(copy, text);
-    }
-
-    return copy;
-}
-
-static void trim_spaces(char *text)
-{
-    char *start = text;
-
-    while (isspace((unsigned char)*start))
-    {
-        start++;
-    }
-
-    if (start != text)
-    {
-        memmove(text, start, strlen(start) + 1);
-    }
-
-    size_t len = strlen(text);
-
-    while (len > 0 && isspace((unsigned char)text[len - 1]))
-    {
-        text[--len] = '\0';
-    }
-}
-
-static int is_evidence_title(const char *line)
-{
-    while (isspace((unsigned char)*line))
-    {
-        line++;
-    }
-
-    if (!isdigit((unsigned char)*line))
-    {
-        return 0;
-    }
-
-    while (isdigit((unsigned char)*line))
-    {
-        line++;
-    }
-
-    return *line == '.';
-}
-
-Evidence *parse_evidence(FILE *file)
-{
-    char line[2048];
-
-    if (file == NULL)
-    {
+    if (copy == NULL) {
         return NULL;
     }
 
-    free_evidence();
-    rewind(file);
+    strcpy(copy, source);
+    return copy;
+}
 
-    while (fgets(line, sizeof(line), file) != NULL)
-    {
-        line[strcspn(line, "\r\n")] = '\0';
-        trim_spaces(line);
+static char *trim_whitespace(char *text) {
+    while (isspace((unsigned char)*text)) {
+        text++;
+    }
 
-        if (is_evidence_title(line))
-        {
+    if (*text == '\0') {
+        return text;
+    }
+
+    char *end = text + strlen(text) - 1;
+
+    while (end > text && isspace((unsigned char)*end)) {
+        end--;
+    }
+
+    *(end + 1) = '\0';
+
+    return text;
+}
+
+static void remove_newline(char *text) {
+    text[strcspn(text, "\r\n")] = '\0';
+}
+
+static int is_evidence_header(const char *text) {
+    while (isspace((unsigned char)*text)) {
+        text++;
+    }
+
+    if (!isdigit((unsigned char)*text)) {
+        return 0;
+    }
+
+    while (isdigit((unsigned char)*text)) {
+        text++;
+    }
+
+    return *text == '.';
+}
+
+static void clear_evidence(void) {
+    for (int i = 0; i < ev_count; i++) {
+        free(ev_list[i].name);
+        free(ev_list[i].description);
+    }
+
+    free(ev_list);
+
+    ev_list = NULL;
+    ev_count = 0;
+}
+
+static int append_description(char **description, const char *line) {
+    size_t old_length = strlen(*description);
+    size_t line_length = strlen(line);
+
+    char *temp = realloc(
+        *description,
+        old_length + line_length + 1
+    );
+
+    if (temp == NULL) {
+        return 0;
+    }
+
+    *description = temp;
+
+    memcpy(
+        *description + old_length,
+        line,
+        line_length + 1
+    );
+
+    return 1;
+}
+
+Evidence *parse_evidence(FILE *file_path) {
+    char line[2048];
+
+    clear_evidence();
+
+    if (file_path == NULL) {
+        return NULL;
+    }
+
+    while (fgets(line, sizeof(line), file_path) != NULL) {
+        remove_newline(line);
+
+        if (is_evidence_header(line)) {
             char *title = strchr(line, '.');
 
-            if (title == NULL)
-            {
+            if (title == NULL) {
                 continue;
             }
 
             title++;
-            trim_spaces(title);
+            trim_whitespace(title);
+
+            if (strcmp(title, "Evidences") == 0) {
+                continue;
+            }
 
             Evidence *temp = realloc(
-                evidence_list,
-                (total_evidence + 1) * sizeof(Evidence)
+                ev_list,
+                (ev_count + 1) * sizeof(Evidence)
             );
 
-            if (temp == NULL)
-            {
-                free_evidence();
+            if (temp == NULL) {
+                clear_evidence();
+                fclose(file_path);
                 return NULL;
             }
 
-            evidence_list = temp;
+            ev_list = temp;
 
-            evidence_list[total_evidence].name = copy_text(title);
-            evidence_list[total_evidence].description = copy_text("");
+            ev_list[ev_count].name = copy_string(title);
+            ev_list[ev_count].description = copy_string("");
 
-            if (evidence_list[total_evidence].name == NULL ||
-                evidence_list[total_evidence].description == NULL)
-            {
-                free(evidence_list[total_evidence].name);
-                free(evidence_list[total_evidence].description);
+if (ev_list[ev_count].name == NULL ||
+                ev_list[ev_count].description == NULL) {
 
-                evidence_list[total_evidence].name = NULL;
-                evidence_list[total_evidence].description = NULL;
+            free(ev_list[ev_count].name);
+            free(ev_list[ev_count].description);
 
-                free_evidence();
+                clear_evidence();
+                fclose(file_path);
                 return NULL;
             }
 
-            total_evidence++;
-        }
-        else if (total_evidence > 0 && line[0] != '\0')
-        {
-            Evidence *current = &evidence_list[total_evidence - 1];
+            ev_count++;
+        } else if (ev_count > 0) {
+            if (!append_description(
+                    &ev_list[ev_count - 1].description,
+                    line) ||
+                !append_description(
+                    &ev_list[ev_count - 1].description,
+                    "\n")) {
 
-            size_t old_len = strlen(current->description);
-            size_t line_len = strlen(line);
-
-            char *temp = realloc(
-                current->description,
-                old_len + line_len + 2
-            );
-
-            if (temp == NULL)
-            {
-                free_evidence();
+                clear_evidence();
+                fclose(file_path);
                 return NULL;
             }
-
-            current->description = temp;
-
-            if (old_len > 0)
-            {
-                current->description[old_len++] = '\n';
-            }
-
-            memcpy(
-                current->description + old_len,
-                line,
-                line_len + 1
-            );
         }
     }
 
-    return evidence_list;
-}
+    fclose(file_path);
 
-int evidence_count(void)
-{
-    return total_evidence;
-}
-
-void free_evidence(void)
-{
-    for (int i = 0; i < total_evidence; i++)
-    {
-        free(evidence_list[i].name);
-        free(evidence_list[i].description);
+    if (ev_count == 0) {
+        return NULL;
     }
 
-    free(evidence_list);
-    evidence_list = NULL;
-    total_evidence = 0;
+    return ev_list;
+}
+
+int evidence_count(void) {
+    return ev_count;
+}
+
+void free_evidence(void) {
+    clear_evidence();
 }

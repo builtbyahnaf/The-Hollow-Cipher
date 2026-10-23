@@ -2,13 +2,20 @@
 //#include "progress.h"
 #include <stdlib.h>
 #include <windows.h>
+#include <stdlib.h>
+#include <conio.h>
 #include "level_select.h"
 #include "main.h"
 #include "interrogation.h"
 #include "game_main.h"
 
-void load_level(int level) {
-    suspense_view();
+void load_level(int level, bool view_suspense_and_anim) {
+    if (view_suspense_and_anim) {
+        suspense_view();
+    }
+    
+    
+    
     system("cls");
     printf("-----------------------------------------------------------------\n");
     printf("|                         L E V E L : %d                         |\n", level);
@@ -25,9 +32,15 @@ void load_level(int level) {
         return;
     }
 
+    int char_count = 0;
     char ch;
     while ((ch = fgetc(fp)) != EOF) {
         putchar(ch);
+        char_count++;
+        if (view_suspense_and_anim && char_count <= 400) {
+            Sleep(1);
+        }
+        
     }
 
     fclose(fp);
@@ -121,7 +134,7 @@ void handle_menu(int level){
     case 'i':
         system("cls");
         unl++;
-        //to do: pass level int
+        
         interrogation_menu_init(level);
         break;
 
@@ -134,7 +147,9 @@ void handle_menu(int level){
         break;
 
     case 'x':
-        unl++;
+        _getch();
+        system("cls");
+        show_level_selection();
         break;
 
     default:

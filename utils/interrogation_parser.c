@@ -25,43 +25,19 @@ static char *copy_string(const char *source) {
     return copy;
 }
 
-
-// Removes whitespace from the beginning and end of a string.
-// Returns a pointer to the cleaned string.
-static char *trim_whitespace(char *text) {
-    // Skip whitespace at the beginning.
-    while (isspace((unsigned char)*text)) {
-        text++;
-    }
-
-    // An empty string needs no further processing.
-    if (*text == '\0') {
-        return text;
-    }
-
-    // Find the last non-whitespace character.
-    char *end = text + strlen(text) - 1;
-
-    while (end > text && isspace((unsigned char)*end)) {
-        end--;
-    }
-
-    // Terminate the string immediately after that character.
-    *(end + 1) = '\0';
-
-    return text;
-}
-
-
 // Removes a line's newline characters without removing other text.
 static void remove_newline(char *text) {
+    //strcspn takes 2 params: the first one is the text TO BE scanned and the second one contains
+    //characters TO scan for. It returns an index of the first match. If it can't find a math, it
+    //returns the length of the string.
     text[strcspn(text, "\r\n")] = '\0';
 }
 
 
 // Checks whether a line is a bracketed header.
 // Examples: [Interrogation], [ Jawer Chakrovarty ]
-static int is_header(const char *text) {
+static bool is_header(const char *text) {
+    //If the headers start with spaces or tabs, this loop skips and fetches the first available character
     while (isspace((unsigned char)*text)) {
         text++;
     }
@@ -69,13 +45,13 @@ static int is_header(const char *text) {
     int length = strlen(text);
 
     // A header must begin with '[' and end with ']'.
-    return length >= 2 &&
-           text[0] == '[' &&
-           text[length - 1] == ']';
+    if (length >= 2 && text[0] == '[' && text[length - 1] == ']') return true;
+    else return false;
 }
 
 
-// Frees all currently stored suspects and their strings.
+// Frees all currently stored suspects and their strings, so parsing a second file won't leave the first file's allocations behind.
+//This function exists solely to prevent memory leak bug, making the variables resusable.
 static void clear_statements(void) {
     for (int i = 0; i < statement_count; i++) {
         free(sus_sts[i].name);
@@ -91,12 +67,26 @@ static void clear_statements(void) {
 
 // Appends a line to a suspect's existing statement.
 // The statement grows dynamically as more lines are read.
-static int append_statement(char **statement, const char *line)
-{
-    size_t old_length = strlen(*statement);
-    size_t line_length = strlen(line);
+static int append_statement(char **statement, const char *line) {
+    /*
+    Bug patch: why **statement instead of *statement?
+    A pointer-to-pointer was required because realloc() may move the allocated memory to a
+    different address
+    
+    The relationship is:
+    - statement is a pointer to the caller's pointer.
+    - *statement is the caller's actual string pointer.
+    - **statement would be the first character of that string.
+    */
+    int old_length = strlen(*statement);
+    int line_length = strlen(line);
 
     // Include space for the new text and the terminating '\0'.
+    /*Bug patch:
+    Why use temp? If you assigned the result directly to *statement and realloc() failed, 
+    you could lose the original pointer and leak the old allocation. 
+    Using a temporary pointer avoids that problem.
+    */
     char *temp = realloc(
         *statement,
         old_length + line_length + 1
@@ -139,9 +129,9 @@ SuspectStatements *parse_interrogation(FILE *file_path)
         // Check whether this line is a section or suspect header.
         if (is_header(line)) {
 
-            // Remove the surrounding brackets.
-            line[strlen(line) - 1] = '\0';
-            char *name = trim_whitespace(line + 1);
+            // Patch: The surrounding brackets were intentional
+            
+            char *name = line;
 
             // [Interrogation] identifies the section, not a suspect.
             if (strcmp(name, "Interrogation") == 0) {

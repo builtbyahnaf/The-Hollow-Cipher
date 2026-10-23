@@ -1,6 +1,7 @@
 #include <stdio.h>
 //#include "progress.h"
 #include <stdlib.h>
+#include <conio.h>
 #include "level_select.h"
 #include "main.h"
 #include "game_main.h"
@@ -28,11 +29,12 @@ void show_level_selection(){
         printf("Enter between 0-2. Please try again.\n");
         goto RETRY;
     } else if (selected_level == 0) {
+        _getch();
         system("cls");
         //going back to previous screen
         game_init();
     } else {
-        load_level(selected_level);
+        load_level(selected_level, true);
     }
     
 
