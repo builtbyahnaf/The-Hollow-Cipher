@@ -10,8 +10,8 @@
 void handle_input(int count);
 void show_statement(int index);
 
-SuspectStatements *sus_sts;
-int level;
+static SuspectStatements *sus_sts;
+static int level;
 
 enum KEYS {
     PREFIX_A = 0,
@@ -65,12 +65,13 @@ void handle_input(int count){
 
             if (i == selected) {
                 // Highlight selected suspect with gold foreground
-                printf(BG_ACID_LIME CRIMSON " > [ %s ] " "\n", sus_sts[i].name);
+                printf(BG_ACID_LIME CRIMSON " >  %s  " "\n", sus_sts[i].name);
             } else {
                 // Normal suspects use ivory foreground
-                printf(BG_LEATHER GOLD "   [ %s ]" "\n", sus_sts[i].name);
+                printf(BG_LEATHER GOLD "    %s " "\n", sus_sts[i].name);
             }
             printf(BG_LEATHER GOLD);
+            Sleep(180);
         }
 
         printf("\n"  "UP/DOWN: Navigate | ENTER: Select | ESC: Exit" "\n");

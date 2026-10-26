@@ -7,11 +7,14 @@
 #define GOLD          "\033[38;2;227;164;84m"  /* #E3A454 */
 #define CRIMSON       "\033[38;2;227;94;84m"   /* #E35E54 */
 #define ACID_LIME     "\033[38;2;217;227;84m"  /* #D9E354 */
+#define MINT_GREEN    "\033[38;2;0;204;153m"  /* #00CC99 */
+
 
 /* Background colors */
 #define BG_GOLD       "\033[48;2;227;164;84m"  /* #E3A454 */
 #define BG_CRIMSON    "\033[48;2;227;94;84m"   /* #E35E54 */
 #define BG_ACID_LIME  "\033[48;2;217;227;84m"  /* #D9E354 */
+#define BG_MINT_GREEN "\033[48;2;0;204;153m" /* #00CC99 */
 
 /* More background colors */
 #define BG_VOID       "\033[48;2;23;25;28m"    /* #17191C */
