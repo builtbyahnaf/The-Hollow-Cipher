@@ -8,6 +8,7 @@
 static bool is_puzzle_passed = false;
 static int puzzle_password = 0;
 static int level;
+static bool vault_unlocked = false;
 
 void handle_puzzle(int pass);
 
@@ -15,11 +16,19 @@ void set_puzzle_passed(bool p){
     is_puzzle_passed = p;
 }
 
+bool is_vault_unlocked(void) {
+    return vault_unlocked;
+}
+
 int get_puzzle_password(void) {
     return puzzle_password;
 }
 
 void show_vault_puzzle(int _level){
+    // Reset puzzle state for new attempt
+    is_puzzle_passed = false;
+    puzzle_password = 0;
+    
     // Clear the screen and move the cursor to the top-left.
         system("cls");
         level = _level;
@@ -142,10 +151,10 @@ void handle_puzzle(int pass){
     // Check if solved
     if (result[0] == 2 && result[1] == 2 && result[2] == 2 && result[3] == 2 && result[4] == 2) {
         printf(MINT_GREEN "Congratulations! Unlocking Evidence Vault now..." GOLD);
+        vault_unlocked = true;
         set_puzzle_passed(true);
         Sleep(2000);
         evidence_menu_init(level);
-        //set_vault_unlocked();
         return;
     }
     if(!is_puzzle_passed) printf("\nTry again.");

@@ -11,6 +11,7 @@
 #include "past_history.h"
 #include "evidence_vault.h"
 #include "game_main.h"
+#include "color_palette.h"
 
 void load_level(int level, bool view_suspense_and_anim) {
     if (view_suspense_and_anim) {
@@ -129,8 +130,12 @@ void handle_menu(int level){
     case 'e':
         system("cls");
         
-        show_vault_puzzle(level);
-        handle_puzzle(get_puzzle_password());
+        if (is_vault_unlocked()) {
+            evidence_menu_init(level);
+        } else {
+            show_vault_puzzle(level);
+            handle_puzzle(get_puzzle_password());
+        }
         break;
 
     case 'i':
@@ -148,9 +153,13 @@ void handle_menu(int level){
         break;
 
     case 'x':
-        _getch();
-        system("cls");
-        show_level_selection();
+        printf("\nAre you sure you want to exit? (Y/N): ");
+        char confirm;
+        scanf(" %c", &confirm);
+        if (confirm == 'y' || confirm == 'Y') {
+            system("cls");
+            show_level_selection();
+        }
         break;
 
     default:

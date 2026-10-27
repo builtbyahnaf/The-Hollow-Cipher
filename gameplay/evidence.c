@@ -112,8 +112,8 @@ void show_evidence(int index) {
 
         if (key == ESCAPE) {
             system("cls");
-            break;
+            load_level(level, false);
+            return;
         }
     }
-    handle_ev_input(evidence_count());
 }

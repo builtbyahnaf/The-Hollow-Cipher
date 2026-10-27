@@ -104,6 +104,22 @@ void game_init(){
         break;
 
     case 'e':
+        printf("\nAre you sure you want to exit? (Y/N): ");
+        char confirm;
+        scanf(" %c", &confirm);
+        if (confirm == 'y' || confirm == 'Y') {
+            system("cls");
+            char farewell_text[] = "Thank you for playing THE HOLLOW CIPHER.\n";
+
+        for (int i = 0; farewell_text[i] != '\0'; i++) {
+            printf("%c", farewell_text[i]);
+            fflush(stdout);
+            Sleep(delay);
+        }
+            
+            Sleep(1000);
+            exit(0);
+        }
         break;
 
     default:

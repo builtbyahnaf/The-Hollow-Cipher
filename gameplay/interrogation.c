@@ -138,8 +138,8 @@ void show_statement(int index){
         // Escape exits the menu.
         if (key == ESCAPE) {
             system("cls");
-            break;
+            load_level(level, false);
+            return;
         }
     }
-    handle_input(statements_count());
 }

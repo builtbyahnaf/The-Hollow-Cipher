@@ -4,15 +4,26 @@
 
 #include "vault_pass.h"
 
+static bool seeded = false;
+
 int generate_pass(void) {
-    long seed = 10000000L + rand() % 90000000L;
+    if (!seeded) {
+        srand((unsigned int)time(NULL));
+        seeded = true;
+    }
 
-    long step1 = seed >> 3;
-    long step2 = step1 << 2;
-    long step3 = step2 ^ 0xABCD;
-    long step4 = step3 & 0x7FFFFFFF;
+    int digits[10] = {0,1,2,3,4,5,6,7,8,9};
+    for (int i = 9; i > 0; i--) {
+        int j = rand() % (i + 1);
+        int temp = digits[i];
+        digits[i] = digits[j];
+        digits[j] = temp;
+    }
 
-    int result = 10000 + (int)(step4 % 90000);
+    int result = 0;
+    for (int i = 0; i < 5; i++) {
+        result = result * 10 + digits[i];
+    }
 
     return result;
 }

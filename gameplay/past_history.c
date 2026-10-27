@@ -112,8 +112,8 @@ void show_history(int index) {
 
         if (key == ESCAPE) {
             system("cls");
-            break;
+            load_level(level, false);
+            return;
         }
     }
-    handle_ph_input(past_history_count());
 }
