@@ -3,6 +3,7 @@
 #include <ctype.h>
 #include <stdlib.h>
 #include <windows.h>
+#include <conio.h>
 #include "level_select.h"
 #include "admin_panel.h"
 #include "color_palette.h"
@@ -82,7 +83,7 @@ void game_init(){
     }
 
     printf("ENTER SELECTION: ");
-    scanf("%c", &selection);
+    scanf(" %c", &selection);
 
     if (selection < 'A' || selection > 'z') {
         printf("Invalid selection. Please try again.\n");
@@ -101,6 +102,31 @@ void game_init(){
         break;
 
     case 'a':
+    system("cls");
+    char version_info[] = "THE HOLLOW CIPHER version 1.0.0-stable\n\n";
+    char about_section[] = "The Hollow Cipher is an interactive detective and mystery-solving game developed using the C programming language for KUET CSE 1-1 Project. The game places the player in the role of an investigator who must study the available evidence, question suspects, and connect conflicting pieces of information to uncover the truth.\n"
+                            "The project is built around a narrative-driven investigation. Instead of relying solely on action or random gameplay, it encourages logical reasoning, attention to detail, and critical analysis. The game flow is story-driven, where each level acts as a step towards the final dramatic conclusion.\n\n";
+    char credits_section[] = "================== C R E D I T S ====================\n\n"
+                            "Muhammad Tahmid Ahnaf : Project architecture and planning, overall game experience and quality, administrative actions, vault locking and unlocking mechanisms, animations, consecutive story building, integration of gameplay systems and debugging.\n"
+                            "Rubiya Rahman Mela : Assisted in integration of gameplay systems, file parsing logic, vault password generation, solution validation and beta testing.";
+    for (int i = 0; version_info[i] != '\0'; i++) {
+            printf("%c", version_info[i]);
+            fflush(stdout);
+            Sleep(10);
+        }
+    printf("%s", about_section);
+    for (int i = 0; credits_section[i] != '\0'; i++) {
+            printf("%c", credits_section[i]);
+            fflush(stdout);
+            Sleep(1);
+        }
+    printf("\n\nPress ESC to go back...");
+    int key = _getch();
+
+        if (key == 27) {
+            system("cls");
+            game_init();
+        }
         break;
 
     case 'e':
