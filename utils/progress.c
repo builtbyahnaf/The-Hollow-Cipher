@@ -43,10 +43,10 @@ void load_progress() {
     fclose(pfile);
 }
 
-bool is_level_unlocked(int level_index) {
+int is_level_unlocked(int level_index) {
     if (level_index < 0 || level_index > MAX_LEVELS) {
         printf("Error: Invalid level_index was passed to is_level_unlocked()\n");
-        return false;
+        return 0;
     }
     return level_states[level_index];
 }
@@ -68,4 +68,23 @@ void set_level_unlocked(int level_index) {
         fprintf(up_file, "%d %d\n", i, level_states[i] ? 1 : 0);
     }
     fclose(up_file);
+}
+
+void reset_progress(void) {
+    for (int i = 0; i < MAX_LEVELS; i++) {
+        level_states[i] = false;
+    }
+    level_states[0] = true;
+
+    FILE *up_file = fopen("data/progress.thcdb", "w");
+    if (!up_file) {
+        printf("Error: Could not open progress file for writing\n");
+        return;
+    }
+    fprintf(up_file, "THCDB_V1\n");
+    for (int i = 0; i < MAX_LEVELS; i++) {
+        fprintf(up_file, "%d %d\n", i, level_states[i] ? 1 : 0);
+    }
+    fclose(up_file);
+    printf("Progress reset successfully. Only Level 1 is unlocked.\n");
 }

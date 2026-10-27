@@ -8,11 +8,27 @@
 #include "admin_panel.h"
 #include "color_palette.h"
 #include "main.h"
+#include "credentials_manager.h"
+#include "progress.h"
+
+extern void load_progress(void);
+extern int is_level_unlocked(int level_index);
+extern void set_level_unlocked(int level_index);
+extern void reset_progress(void);
+
+void options_menu(void);
+void reset_progress_menu(void);
 
 int main(int argc, char *argv[]) {
-    if (argc >= 3 && strcmp(argv[1], "admin_mode") == 0 && strcmp(argv[2], "admin123") == 0) {
-        show_panel();
-        return 0;
+    if (argc >= 3) {
+        init_credentials();
+        if (is_user_valid(argv[1], argv[2])) {
+            show_panel();
+            return 0;
+        } else {
+            printf("Invalid credentials.\n");
+            return 1;
+        }
     }
 
     
@@ -53,7 +69,7 @@ void game_init(){
 
     RETRY:
 
-    for (int j = 0; j < 4; j++) {
+    for (int j = 0; j < 5; j++) {
         switch (j) {
         case 0:
             /* code */
@@ -72,6 +88,11 @@ void game_init(){
             Sleep(250);
             break;
         case 3:
+            printf("RESET PROGRESS [R]\n");
+            fflush(stdout);
+            Sleep(250);
+            break;
+        case 4:
             printf("EXIT [E]\n\n");
             fflush(stdout);
             Sleep(250);
@@ -99,6 +120,8 @@ void game_init(){
         break;
 
     case 'o':
+        system("cls");
+        options_menu();
         break;
 
     case 'a':
@@ -148,10 +171,64 @@ void game_init(){
         }
         break;
 
+    case 'r':
+        system("cls");
+        reset_progress_menu();
+        break;
+
     default:
     printf("Invalid parameters!\n");
         break;
     }
 
 
+}
+
+void options_menu(void) {
+    char selection;
+    load_progress();
+
+    while (1) {
+        system("cls");
+        printf(BG_LEATHER GOLD);
+        printf("-----------------------------------------------------------------\n");
+        printf("|                       O P T I O N S                            |\n");
+        printf("-----------------------------------------------------------------\n\n");
+
+        printf("RESET PROGRESS [R]\n");
+        printf("GO BACK [B]\n\n");
+
+        printf("ENTER SELECTION: ");
+        scanf(" %c", &selection);
+
+        if (selection >= 'A' && selection <= 'Z') {
+            selection = tolower(selection);
+        }
+
+        switch (selection) {
+        case 'r':
+            system("cls");
+            printf("\nAre you sure you want to reset all progress? (Y/N): ");
+            char confirm;
+            scanf(" %c", &confirm);
+            if (confirm == 'y' || confirm == 'Y') {
+                reset_progress();
+                Sleep(1500);
+            }
+            break;
+
+        case 'b':
+            system("cls");
+            return;
+
+        default:
+            printf("Invalid selection.\n");
+            Sleep(1000);
+            break;
+        }
+    }
+}
+
+void reset_progress_menu(void) {
+    options_menu();
 }

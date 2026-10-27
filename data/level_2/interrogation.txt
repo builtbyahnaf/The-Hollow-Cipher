@@ -1,0 +1,15 @@
+[Interrogation]
+[ Suspect 1: Jonathan Reeves ]
+Jonathan claims he was at home alone on the night of the incident. His alibi cannot be verified. He admits knowing the victim professionally but denies any personal conflict. When confronted with the anonymous tip matching his handwriting, he becomes defensive and refuses to provide a handwriting sample.
+
+[ Suspect 2: Margaret Holloway ]
+Margaret acknowledges the dinner with the victim but insists it was purely social. She claims the photograph was taken out of context. She admits the victim had threatened to expose her family's financial irregularities but says she had no motive to harm him. Her fingerprints were found on the lighthouse key.
+
+[ Suspect 3: Captain Elias Vane ]
+Captain Vane was the lighthouse keeper. He claims he gave the victim a key for "official business" but refuses to elaborate. He was seen near the lighthouse on the night in question. His logbook shows an unexplained gap between 11 PM and 2 AM.
+
+[ Suspect 4: Dr. Adrian Croft ]
+The victim's personal physician. He prescribed a sedative to the victim on the day of the disappearance. The prescription was for a dose that could cause memory loss. Dr. Croft claims it was for insomnia but the dosage is unusually high.
+
+[ Suspect 5: Officer Raymond Pike ]
+The lead investigator on the case. He was the first to arrive at the scene. He failed to secure the lighthouse key as evidence. His phone records show a call to Suspect 1 at 11:45 PM on the night of the incident.
