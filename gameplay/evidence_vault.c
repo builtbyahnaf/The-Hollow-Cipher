@@ -1,12 +1,13 @@
 #include <stdio.h>
 #include <windows.h>
 #include <stdlib.h>
-
+#include <evidence.h>
 #include "vault_pass.h"
 #include "color_palette.h"
 
 static bool is_puzzle_passed = false;
 static int puzzle_password = 0;
+static int level;
 
 void handle_puzzle(int pass);
 
@@ -14,9 +15,14 @@ void set_puzzle_passed(bool p){
     is_puzzle_passed = p;
 }
 
-void show_vault_puzzle(){
+int get_puzzle_password(void) {
+    return puzzle_password;
+}
+
+void show_vault_puzzle(int _level){
     // Clear the screen and move the cursor to the top-left.
         system("cls");
+        level = _level;
 
         // Apply background and foreground colors from main.c
         printf(BG_LEATHER GOLD);
@@ -27,7 +33,6 @@ void show_vault_puzzle(){
         printf("|                  E V I D E N C E   V A U L T                   |\n");
         printf("-----------------------------------------------------------------\n\n");
 
-        char ch;
         int delay = 30;
         char vault_text_1[] = "The evidences for this case are secured inside this vault. You have to guess the correct password by trial and error.\n\n"
                                 "The rules are as follows:\n\n";
@@ -132,14 +137,18 @@ void handle_puzzle(int pass){
         }
         printf(GOLD);
     }
-    printf("\nTry again.");
+    
 
     // Check if solved
     if (result[0] == 2 && result[1] == 2 && result[2] == 2 && result[3] == 2 && result[4] == 2) {
-        printf(MINT_GREEN "\nVault unlocked!\n");
-        is_puzzle_passed = true;
+        printf(MINT_GREEN "Congratulations! Unlocking Evidence Vault now..." GOLD);
+        set_puzzle_passed(true);
+        Sleep(2000);
+        evidence_menu_init(level);
+        //set_vault_unlocked();
         return;
     }
+    if(!is_puzzle_passed) printf("\nTry again.");
 
     goto RETRY;
 }

@@ -3,8 +3,9 @@
 #include <windows.h>
 #include "interrogation.h"
 #include "interrogation_parser.h"
+#include "past_history.h"
+#include "evidence_vault.h"
 #include "game_main.h"
-
 #include "color_palette.h"
 
 void handle_input(int count);
@@ -71,7 +72,8 @@ void handle_input(int count){
                 printf(BG_LEATHER GOLD "    %s " "\n", sus_sts[i].name);
             }
             printf(BG_LEATHER GOLD);
-            Sleep(180);
+
+            Sleep(50);
         }
 
         printf("\n"  "UP/DOWN: Navigate | ENTER: Select | ESC: Exit" "\n");

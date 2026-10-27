@@ -7,6 +7,9 @@
 #include "level_select.h"
 #include "main.h"
 #include "interrogation.h"
+#include "evidence.h"
+#include "past_history.h"
+#include "evidence_vault.h"
 #include "game_main.h"
 
 void load_level(int level, bool view_suspense_and_anim) {
@@ -76,8 +79,6 @@ void handle_menu(int level){
 
     Sleep(100);
 
-    int unl = 0;
-
     RETRY:
 
     for (int j = 0; j < 5; j++) {
@@ -127,23 +128,23 @@ void handle_menu(int level){
     switch (selection) {
     case 'e':
         system("cls");
-        unl++;
         
+        show_vault_puzzle(level);
+        handle_puzzle(get_puzzle_password());
         break;
 
     case 'i':
         system("cls");
-        unl++;
         
         interrogation_menu_init(level);
         break;
 
     case 'h':
-        unl++;
+        system("cls");
+        past_history_menu_init(level);
         break;
 
     case 'a':
-        unl++;
         break;
 
     case 'x':

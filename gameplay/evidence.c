@@ -61,7 +61,7 @@ void handle_ev_input(int count) {
                 printf(BG_LEATHER GOLD "    %s " "\n", ev_list[i].name);
             }
             printf(BG_LEATHER GOLD);
-            Sleep(180);
+            Sleep(50);
         }
 
         printf("\n" "UP/DOWN: Navigate | ENTER: Select | ESC: Exit" "\n");
