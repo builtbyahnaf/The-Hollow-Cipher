@@ -1,12 +1,21 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <conio.h>
 #include "log_parser.h"
 
 void view_edit_logs(void) {
     FILE* log_file = fopen("data/edit_log.thcdb", "r");
     if (!log_file) {
         printf("No edit logs found.\n");
+        printf("\nPress ESC or Enter to go back...");
+        while (1) {
+            int key = _getch();
+            if (key == 27 || key == 13 || key == 'b' || key == 'B') {
+                break;
+            }
+        }
+        system("cls");
         return;
     }
 
@@ -37,4 +46,13 @@ void view_edit_logs(void) {
 
     printf("\nTotal entries: %d\n", count);
     fclose(log_file);
+
+    printf("\nPress ESC or Enter to go back...");
+    while (1) {
+        int key = _getch();
+        if (key == 27 || key == 13 || key == 'b' || key == 'B') {
+            break;
+        }
+    }
+    system("cls");
 }

@@ -12,11 +12,13 @@ static PastHistory *ph_list = NULL;
 
 static void clear_history(void) {
     for (int i = 0; i < history_count; i++) {
-        free(ph_list[i].name);
-        free(ph_list[i].history);
+        gc_untrack(ph_list[i].name);
+        SAFE_FREE(ph_list[i].name);
+        gc_untrack(ph_list[i].history);
+        SAFE_FREE(ph_list[i].history);
     }
 
-    free(ph_list);
+    SAFE_FREE(ph_list);
 
     ph_list = NULL;
     history_count = 0;
@@ -35,7 +37,9 @@ static int append_history(char **history, const char *line) {
         return 0;
     }
 
+    gc_untrack(*history);
     *history = temp;
+    gc_track(*history);
 
     memcpy(
         *history + old_length,
@@ -85,9 +89,6 @@ PastHistory *parse_past_history(FILE *file_path) {
             if (ph_list[history_count].name == NULL ||
                 ph_list[history_count].history == NULL) {
 
-                free(ph_list[history_count].name);
-                free(ph_list[history_count].history);
-
                 clear_history();
                 fclose(file_path);
                 return NULL;
@@ -95,12 +96,8 @@ PastHistory *parse_past_history(FILE *file_path) {
 
             history_count++;
         } else if (history_count > 0) {
-            if (!append_history(
-                    &ph_list[history_count - 1].history,
-                    line) ||
-                !append_history(
-                    &ph_list[history_count - 1].history,
-                    "\n")) {
+            if (!append_history(&ph_list[history_count - 1].history, line) ||
+                !append_history(&ph_list[history_count - 1].history, "\n")) {
 
                 clear_history();
                 fclose(file_path);
@@ -124,4 +121,5 @@ int past_history_count(void) {
 
 void free_past_history(void) {
     clear_history();
+    gc_collect();
 }

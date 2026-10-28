@@ -27,7 +27,7 @@ static void load_users(void) {
     user_count = 0;
     char line[256];
     while (fgets(line, sizeof(line), file) && user_count < MAX_USERS) {
-        size_t len = strlen(line);
+        int len = strlen(line);
         if (len > 0 && line[len - 1] == '\n') {
             line[len - 1] = '\0';
         }
@@ -168,37 +168,41 @@ void write_pass(const char* pass_string) {
     }
 }
 
+static bool read_input_line(char* buffer, size_t size, const char* prompt) {
+    printf("%s", prompt);
+    fflush(stdout);
+
+    if (fgets(buffer, (int)size, stdin) == NULL) {
+        printf("Error reading input.\n");
+        return false;
+    }
+
+    size_t len = strlen(buffer);
+    while (len > 0 && (buffer[len - 1] == '\n' || buffer[len - 1] == '\r')) {
+        buffer[--len] = '\0';
+    }
+    return true;
+}
+
 void set_new_pass(void) {
     char pass1[MAX_PASS_LEN] = {0};
     char pass2[MAX_PASS_LEN] = {0};
 
-    printf("Enter new password: ");
-    if (fgets(pass1, sizeof(pass1), stdin) == NULL) {
-        printf("Error reading input.\n");
-        return;
-    }
-    size_t len1 = strlen(pass1);
-    if (len1 > 0 && pass1[len1 - 1] == '\n') {
-        pass1[len1 - 1] = '\0';
-    }
-
-    printf("Confirm new password: ");
-    if (fgets(pass2, sizeof(pass2), stdin) == NULL) {
-        printf("Error reading input.\n");
-        return;
-    }
-    size_t len2 = strlen(pass2);
-    if (len2 > 0 && pass2[len2 - 1] == '\n') {
-        pass2[len2 - 1] = '\0';
-    }
-
-    if (strcmp(pass1, pass2) != 0) {
-        printf("Error: Passwords do not match.\n");
+    if (!read_input_line(pass1, sizeof(pass1), "Enter new password: ")) {
         return;
     }
 
     if (strlen(pass1) == 0) {
         printf("Error: Password cannot be empty.\n");
+        return;
+    }
+
+    if (!read_input_line(pass2, sizeof(pass2), "Confirm new password: ")) {
+        return;
+    }
+
+    if (strcmp(pass1, pass2) != 0) {
+        printf("Error: Passwords do not match.\n");
         return;
     }
 
@@ -212,14 +216,8 @@ void add_new_user_interactive(void) {
     char pass1[MAX_PASS_LEN] = {0};
     char pass2[MAX_PASS_LEN] = {0};
 
-    printf("Enter new username: ");
-    if (fgets(username, sizeof(username), stdin) == NULL) {
-        printf("Error reading input.\n");
+    if (!read_input_line(username, sizeof(username), "Enter new username: ")) {
         return;
-    }
-    size_t len = strlen(username);
-    if (len > 0 && username[len - 1] == '\n') {
-        username[len - 1] = '\0';
     }
 
     if (strlen(username) == 0) {
@@ -227,33 +225,21 @@ void add_new_user_interactive(void) {
         return;
     }
 
-    printf("Enter password: ");
-    if (fgets(pass1, sizeof(pass1), stdin) == NULL) {
-        printf("Error reading input.\n");
-        return;
-    }
-    len = strlen(pass1);
-    if (len > 0 && pass1[len - 1] == '\n') {
-        pass1[len - 1] = '\0';
-    }
-
-    printf("Confirm password: ");
-    if (fgets(pass2, sizeof(pass2), stdin) == NULL) {
-        printf("Error reading input.\n");
-        return;
-    }
-    len = strlen(pass2);
-    if (len > 0 && pass2[len - 1] == '\n') {
-        pass2[len - 1] = '\0';
-    }
-
-    if (strcmp(pass1, pass2) != 0) {
-        printf("Error: Passwords do not match.\n");
+    if (!read_input_line(pass1, sizeof(pass1), "Enter password: ")) {
         return;
     }
 
     if (strlen(pass1) == 0) {
         printf("Error: Password cannot be empty.\n");
+        return;
+    }
+
+    if (!read_input_line(pass2, sizeof(pass2), "Confirm password: ")) {
+        return;
+    }
+
+    if (strcmp(pass1, pass2) != 0) {
+        printf("Error: Passwords do not match.\n");
         return;
     }
 
@@ -269,10 +255,12 @@ void remove_user_interactive(void) {
     int choice;
     if (scanf("%d", &choice) != 1) {
         printf("Error: Invalid input.\n");
-        while (getchar() != '\n');
+        int c;
+        while ((c = getchar()) != '\n' && c != EOF);
         return;
     }
-    while (getchar() != '\n');
+    int c;
+    while ((c = getchar()) != '\n' && c != EOF);
 
     if (choice < 1 || choice > user_count) {
         printf("Error: Invalid choice.\n");

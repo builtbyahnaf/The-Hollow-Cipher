@@ -61,7 +61,7 @@ void handle_ph_input(int count) {
                 printf(BG_LEATHER GOLD "    %s " "\n", ph_list[i].name);
             }
             printf(BG_LEATHER GOLD);
-            Sleep(180);
+            Sleep(50);
         }
 
         printf("\n" "UP/DOWN: Navigate | ENTER: Select | ESC: Exit" "\n");
@@ -70,7 +70,9 @@ void handle_ph_input(int count) {
 
         if (key == ESCAPE) {
             system("cls");
+            free_past_history();
             load_level(level, false);
+            return;
         }
 
         if (key == PREFIX_A || key == PREFIX_B) {
@@ -112,7 +114,6 @@ void show_history(int index) {
 
         if (key == ESCAPE) {
             system("cls");
-            load_level(level, false);
             return;
         }
     }

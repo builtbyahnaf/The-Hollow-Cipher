@@ -70,7 +70,9 @@ void handle_ev_input(int count) {
 
         if (key == ESCAPE) {
             system("cls");
+            free_evidence();
             load_level(level, false);
+            return;
         }
 
         if (key == PREFIX_A || key == PREFIX_B) {
@@ -112,7 +114,6 @@ void show_evidence(int index) {
 
         if (key == ESCAPE) {
             system("cls");
-            load_level(level, false);
             return;
         }
     }

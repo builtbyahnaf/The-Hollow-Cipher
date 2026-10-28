@@ -1,10 +1,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h>
-#include <cmd_edit.h>
 #include <string.h>
 #include <time.h>
+#include <windows.h>
+#include <conio.h>
+
+#include "cmd_edit.h"
 #include "admin_panel.h"
+#include "parser_utils.h"
 
 enum LEVELS {
     LEVEL_1 = 1,
@@ -19,15 +23,25 @@ enum OPTIONS {
     STATEMENT = 55
 };
 
+/*
+ * =============================================================================
+ * PACKING IMPLEMENTATION (Packed Bit-Field Struct)
+ * =============================================================================
+ * By default, compilers pad structures to 2, 4, or 8 byte boundaries.
+ * '#pragma pack(push, 1)' pushes the current packing alignment and sets 1-byte
+ * packing, stripping all internal and trailing padding.
+ *
+ * EditSelection combines bit-fields with packing:
+ *   - selected_menu occupies 6 bits (range 0 to 63, sufficient for menu IDs).
+ *   - selected_level occupies 2 bits (range 0 to 3, covering level indices).
+ * Total: 6 + 2 = 8 bits = exactly 1 byte in memory.
+ */
+#pragma pack(push, 1)
 typedef struct {
-    //Holds for only 0-63. Which is enough for here.
-    int selected_menu : 6;
-
-    //WARNING: Holds only 0-2. TODO: Replace later to extend compatibility
-    int selected_level : 2;
+    unsigned int selected_menu : 6;
+    unsigned int selected_level : 2;
 } EditSelection;
-
-
+#pragma pack(pop)
 
 void component_selection_dialogue(int LEVEL) {
     char selection;
@@ -47,89 +61,99 @@ void component_selection_dialogue(int LEVEL) {
         printf("GO BACK [X]\n");
 
         printf("ENTER SELECTION: ");
-        scanf(" %c", &selection);
-
-        if (selection < 'A' || selection > 'z') {
-            printf("Invalid selection. Please try again.\n");
+        if (scanf(" %c", &selection) != 1) {
+            int c;
+            while ((c = getchar()) != '\n' && c != EOF);
             continue;
-        } else if (selection >= 'A' && selection <= 'Z') {
-            selection = tolower(selection);
         }
+        int c;
+        while ((c = getchar()) != '\n' && c != EOF);
+
+        selection = tolower(selection);
 
         switch (selection) {
         case 'e':
-            system("cls");
+            CLEAR_SCREEN();
             printf("Evidence file opened in notepad for you to edit:\n");
             open_editor(LEVEL, EVIDENCE);
             break;
 
         case 'i':
-            system("cls");
+            CLEAR_SCREEN();
             printf("Interrogation file opened in notepad for you to edit:\n");
             open_editor(LEVEL, INTERROGATION);
             break;
         case 'h':
-            system("cls");
+            CLEAR_SCREEN();
             printf("Past History file opened in notepad for you to edit:\n");
             open_editor(LEVEL, PAST_HISTORY);
             break;
         case 'a':
-            system("cls");
+            CLEAR_SCREEN();
             printf("Solution file opened in notepad for you to edit:\n");
             open_editor(LEVEL, SOLUTION);
             break;
         case 's':
-            system("cls");
+            CLEAR_SCREEN();
             printf("Statement file opened in notepad for you to edit:\n");
             open_editor(LEVEL, STATEMENT);
             break;
         case 'x':
-            system("cls");
-            select_level();
+            CLEAR_SCREEN();
             return;
 
         default:
             printf("INVALID SELECTION\n");
+            Sleep(1000);
             break;
         }
     }
 }
 
-void select_level() {
+void select_level(void) {
     int selection;
 
-    printf("-----------------------------------------------------------------\n");
-    printf("|               T H E   H O L L O W    C I P H E R               |\n");
-    printf("-----------------------------------------------------------------\n");
-
-    printf("\n \n");
-
-    printf("               SELECT THE LEVEL YOU WANT TO EDIT              ");
-
-    printf("\n \n");
-
-    RETRY1:
-    printf("TO GO BACK, ENTER 0 (ZERO)\n\n");
-    printf("LEVEL 1: THE SILENT PATIENT\n");
-    printf("LEVEL 2: THE MISSING NOTEBOOK\n");
-
-    printf("ENTER SELECTION: ");
-    scanf("%d", &selection);
-
-    if (selection < 0 || selection > 2) {
-        printf("Error: Invalid level\n");
-        goto RETRY1;
-    }
-
-    if (selection == 0)
-    {
+    while (1) {
         system("cls");
-        show_panel();
-        return;
+        printf("-----------------------------------------------------------------\n");
+        printf("|               T H E   H O L L O W    C I P H E R               |\n");
+        printf("-----------------------------------------------------------------\n");
+
+        printf("\n \n");
+
+        printf("               SELECT THE LEVEL YOU WANT TO EDIT              ");
+
+        printf("\n \n");
+
+        printf("TO GO BACK, ENTER 0 (ZERO)\n\n");
+        printf("LEVEL 1: THE SILENT PATIENT\n");
+        printf("LEVEL 2: THE MISSING NOTEBOOK\n\n");
+
+        printf("ENTER SELECTION: ");
+        if (scanf("%d", &selection) != 1) {
+            int c;
+            while ((c = getchar()) != '\n' && c != EOF);
+            printf("Error: Invalid level\n");
+            Sleep(1000);
+            continue;
+        }
+        int c;
+        while ((c = getchar()) != '\n' && c != EOF);
+
+        if (selection < 0 || selection > 2) {
+            printf("Error: Invalid level\n");
+            Sleep(1000);
+            continue;
+        }
+
+        if (selection == 0) {
+            CLEAR_SCREEN();
+            return;
+        }
+
+        CLEAR_SCREEN();
+        component_selection_dialogue(selection);
     }
-    
-    system("cls");
-    component_selection_dialogue(selection);
 }
 
 const char* get_component_filename(int component) {
@@ -171,7 +195,7 @@ void write_log(int LEVEL, int COMPONENT) {
         rewind(log_file);
 
         if (existing_size > 0) {
-            existing_logs = malloc(existing_size + 1);
+            existing_logs = (char *)malloc(existing_size + 1);
             if (existing_logs) {
                 fread(existing_logs, 1, existing_size, log_file);
                 existing_logs[existing_size] = '\0';
@@ -182,14 +206,14 @@ void write_log(int LEVEL, int COMPONENT) {
 
     log_file = fopen("data/edit_log.thcdb", "w");
     if (!log_file) {
-        free(existing_logs);
+        SAFE_FREE(existing_logs);
         return;
     }
 
     fputs(new_log, log_file);
     if (existing_logs) {
         fputs(existing_logs, log_file);
-        free(existing_logs);
+        SAFE_FREE(existing_logs);
     }
 
     fclose(log_file);
@@ -201,14 +225,19 @@ void open_editor(int LEVEL, int COMPONENT) {
         return;
     }
 
-    const char* filename = get_component_filename(COMPONENT);
+    /* Instantiate packed configuration record */
+    EditSelection config;
+    config.selected_level = (unsigned int)LEVEL;
+    config.selected_menu = (unsigned int)COMPONENT;
+
+    const char* filename = get_component_filename((int)config.selected_menu);
     if (!filename) {
         printf("Error: Invalid component\n");
         return;
     }
 
     char filepath[256];
-    snprintf(filepath, sizeof(filepath), "data/level_%d/%s", LEVEL, filename);
+    snprintf(filepath, sizeof(filepath), "data/level_%d/%s", (int)config.selected_level, filename);
 
     FILE* test = fopen(filepath, "r");
     if (!test) {
@@ -223,11 +252,10 @@ void open_editor(int LEVEL, int COMPONENT) {
     printf("Opening: %s\n", filepath);
     system(command);
 
-    write_log(LEVEL, COMPONENT);
+    write_log((int)config.selected_level, (int)config.selected_menu);
 
     printf("File editing complete. Changes saved.\n");
+    printf("\nPress any key to continue...");
+    _getch();
+    CLEAR_SCREEN();
 }
-
-
-
-

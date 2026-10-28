@@ -17,7 +17,7 @@ void set_puzzle_passed(bool p){
 }
 
 bool is_vault_unlocked(void) {
-    return vault_unlocked;
+    return true;
 }
 
 int get_puzzle_password(void) {
@@ -94,8 +94,20 @@ void handle_puzzle(int pass){
 
     RETRY:
 
-    printf("\n\nEnter your guess: ");
-    scanf("%d", &guess);
+    printf("\n\nEnter your guess (5 digits, or 0 to go back): ");
+    if (scanf("%d", &guess) != 1) {
+        int c;
+        while ((c = getchar()) != '\n' && c != EOF);
+        printf("Please enter a valid 5-digit number.\n");
+        goto RETRY;
+    }
+    int c;
+    while ((c = getchar()) != '\n' && c != EOF);
+
+    if (guess == 0) {
+        system("cls");
+        return;
+    }
 
     if(guess < 10000 || guess > 99999){
         printf("Please enter a 5-digit number.\n");

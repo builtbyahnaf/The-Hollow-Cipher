@@ -82,10 +82,12 @@ void handle_input(int count){
         // Wait for one keyboard input.
         key = _getch();
 
-        // Escape exits the menu.
+        // Escape exits back to level menu.
         if (key == ESCAPE) {
             system("cls");
+            free_statements();
             load_level(level, false);
+            return;
         }
 
         // Arrow keys produce a prefix followed by a key code.
@@ -135,10 +137,9 @@ void show_statement(int index){
     {
         key = _getch();
 
-        // Escape exits the menu.
+        // Escape exits back to suspect list.
         if (key == ESCAPE) {
             system("cls");
-            load_level(level, false);
             return;
         }
     }

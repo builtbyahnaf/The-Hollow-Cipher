@@ -8,6 +8,8 @@
 #define CRIMSON       "\033[38;2;227;94;84m"   /* #E35E54 */
 #define ACID_LIME     "\033[38;2;217;227;84m"  /* #D9E354 */
 #define MINT_GREEN    "\033[38;2;0;204;153m"  /* #00CC99 */
+#define GREEN         "\033[38;2;0;200;83m"   /* #00C853 */
+#define RED           "\033[38;2;255;82;82m"  /* #FF5252 */
 
 
 /* Background colors */

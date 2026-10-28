@@ -10,6 +10,7 @@
 #include "main.h"
 #include "credentials_manager.h"
 #include "progress.h"
+#include "parser_utils.h"
 
 extern void load_progress(void);
 extern int is_level_unlocked(int level_index);
@@ -18,6 +19,10 @@ extern void reset_progress(void);
 
 void options_menu(void);
 void reset_progress_menu(void);
+int get_typewriter_delay(void);
+void theme_menu(void);
+
+int current_theme = 0;
 
 int main(int argc, char *argv[]) {
     if (argc >= 3) {
@@ -31,27 +36,24 @@ int main(int argc, char *argv[]) {
         }
     }
 
-    
-    //Setting colors
-
+    // Setting colors
     printf(BG_LEATHER GOLD);
     system("cls");
 
     game_init();
     
+    gc_collect();
     return 0;
 }
-void game_init(){
+
+void game_init(void) {
     char selection;
     char title_text[] = "T H E   H O L L O W    C I P H E R";
 
     printf("-----------------------------------------------------------------\n");
     printf("|               ");
 
-    //The typewriter animation
-    int delay = 35;  // Typing speed in milliseconds
-
-    // The animation lasts for title_text length x delay ms = 35 x 40 = 1400 ms which is equivalent to 1.4 sec
+    int delay = get_typewriter_delay();
 
     for (int i = 0; title_text[i] != '\0'; i++) {
         printf("%c", title_text[i]);
@@ -60,128 +62,99 @@ void game_init(){
     }
 
     printf("               |\n");
-
-    printf("-----------------------------------------------------------------\n");
-
-    printf("\n \n");
-
+    printf("-----------------------------------------------------------------\n\n");
     Sleep(100);
 
-    RETRY:
+    while (1) {
+        Sleep(200);
+        printf("PLAY [P]\n");
+        Sleep(200);
+        printf("OPTIONS [O]\n");
+        Sleep(200);
+        printf("ABOUT AND CREDITS [A]\n");
+        Sleep(200);
+        printf("EXIT [E]\n\n");
+        Sleep(200);
 
-    for (int j = 0; j < 5; j++) {
-        switch (j) {
-        case 0:
-            /* code */
-            printf("PLAY [P]\n");
-            fflush(stdout);
-            Sleep(250);
-            break;
-        case 1:
-            printf("OPTIONS [O]\n");
-            fflush(stdout);
-            Sleep(250);
-            break;
-        case 2:
-            printf("ABOUT AND CREDITS [A]\n");
-            fflush(stdout);
-            Sleep(250);
-            break;
-        case 3:
-            printf("RESET PROGRESS [R]\n");
-            fflush(stdout);
-            Sleep(250);
-            break;
-        case 4:
-            printf("EXIT [E]\n\n");
-            fflush(stdout);
-            Sleep(250);
-            break;
-        default:
-            break;
+        printf("ENTER SELECTION: ");
+        if (scanf(" %c", &selection) != 1) {
+            int c;
+            while ((c = getchar()) != '\n' && c != EOF);
+            continue;
         }
-        
-    }
+        int c;
+        while ((c = getchar()) != '\n' && c != EOF);
 
-    printf("ENTER SELECTION: ");
-    scanf(" %c", &selection);
-
-    if (selection < 'A' || selection > 'z') {
-        printf("Invalid selection. Please try again.\n");
-        goto RETRY;
-    } else if (selection >= 'A' && selection <= 'Z') {
         selection = tolower(selection);
-    }
 
-    switch (selection) {
-    case 'p':
-        system("cls");
-        show_level_selection();
-        break;
-
-    case 'o':
-        system("cls");
-        options_menu();
-        break;
-
-    case 'a':
-    system("cls");
-    char version_info[] = "THE HOLLOW CIPHER version 1.0.0-stable\n\n";
-    char about_section[] = "The Hollow Cipher is an interactive detective and mystery-solving game developed using the C programming language for KUET CSE 1-1 Project. The game places the player in the role of an investigator who must study the available evidence, question suspects, and connect conflicting pieces of information to uncover the truth.\n"
-                            "The project is built around a narrative-driven investigation. Instead of relying solely on action or random gameplay, it encourages logical reasoning, attention to detail, and critical analysis. The game flow is story-driven, where each level acts as a step towards the final dramatic conclusion.\n\n";
-    char credits_section[] = "================== C R E D I T S ====================\n\n"
-                            "Muhammad Tahmid Ahnaf : Project architecture and planning, overall game experience and quality, administrative actions, vault locking and unlocking mechanisms, animations, consecutive story building, integration of gameplay systems and debugging.\n"
-                            "Rubiya Rahman Mela : Assisted in integration of gameplay systems, file parsing logic, vault password generation, solution validation and beta testing.";
-    for (int i = 0; version_info[i] != '\0'; i++) {
-            printf("%c", version_info[i]);
-            fflush(stdout);
-            Sleep(10);
-        }
-    printf("%s", about_section);
-    for (int i = 0; credits_section[i] != '\0'; i++) {
-            printf("%c", credits_section[i]);
-            fflush(stdout);
-            Sleep(1);
-        }
-    printf("\n\nPress ESC to go back...");
-    int key = _getch();
-
-        if (key == 27) {
+        switch (selection) {
+        case 'p':
             system("cls");
-            game_init();
-        }
-        break;
-
-    case 'e':
-        printf("\nAre you sure you want to exit? (Y/N): ");
-        char confirm;
-        scanf(" %c", &confirm);
-        if (confirm == 'y' || confirm == 'Y') {
+            show_level_selection();
             system("cls");
-            char farewell_text[] = "Thank you for playing THE HOLLOW CIPHER.\n";
+            break;
 
-        for (int i = 0; farewell_text[i] != '\0'; i++) {
-            printf("%c", farewell_text[i]);
-            fflush(stdout);
-            Sleep(delay);
-        }
-            
+        case 'o':
+            system("cls");
+            options_menu();
+            system("cls");
+            break;
+
+        case 'a':
+            system("cls");
+            char version_info[] = "THE HOLLOW CIPHER version 1.0.0-stable\n\n";
+            char about_section[] = "The Hollow Cipher is an interactive detective and mystery-solving game developed using the C programming language for KUET CSE 1-1 Project. The game places the player in the role of an investigator who must study the available evidence, question suspects, and connect conflicting pieces of information to uncover the truth.\n"
+                                    "The project is built around a narrative-driven investigation. Instead of relying solely on action or random gameplay, it encourages logical reasoning, attention to detail, and critical analysis. The game flow is story-driven, where each level acts as a step towards the final dramatic conclusion.\n\n";
+            char credits_section[] = "================== C R E D I T S ====================\n\n"
+                                    "Muhammad Tahmid Ahnaf : Project architecture and planning, overall game experience and quality, administrative actions, vault locking and unlocking mechanisms, animations, themes, consecutive story building, integration of gameplay systems, debugging amd overall performance optimization.\n"
+                                    "Rubiya Rahman Mela : Assisted in file parsing logic, vault password generation and solution validation.";
+            for (int i = 0; version_info[i] != '\0'; i++) {
+                printf("%c", version_info[i]);
+                fflush(stdout);
+                Sleep(5);
+            }
+            printf("%s", about_section);
+            for (int i = 0; credits_section[i] != '\0'; i++) {
+                printf("%c", credits_section[i]);
+                fflush(stdout);
+                Sleep(1);
+            }
+            printf("\n\nPress any key to go back...");
+            _getch();
+            system("cls");
+            break;
+
+        case 'e':
+            printf("\nAre you sure you want to exit? (Y/N): ");
+            char confirm;
+            if (scanf(" %c", &confirm) == 1) {
+                while ((c = getchar()) != '\n' && c != EOF);
+                if (confirm == 'y' || confirm == 'Y') {
+                    system("cls");
+                    char farewell_text[] = "Thank you for playing THE HOLLOW CIPHER.\n";
+                    for (int i = 0; farewell_text[i] != '\0'; i++) {
+                        printf("%c", farewell_text[i]);
+                        fflush(stdout);
+                        Sleep(delay);
+                    }
+                    Sleep(500);
+                    gc_collect();
+                    exit(0);
+                    return;
+                }
+            } else {
+                while ((c = getchar()) != '\n' && c != EOF);
+            }
+            system("cls");
+            break;
+
+        default:
+            printf("Invalid parameters! Please try again.\n");
             Sleep(1000);
-            exit(0);
+            system("cls");
+            break;
         }
-        break;
-
-    case 'r':
-        system("cls");
-        reset_progress_menu();
-        break;
-
-    default:
-    printf("Invalid parameters!\n");
-        break;
     }
-
-
 }
 
 void options_menu(void) {
@@ -196,25 +169,38 @@ void options_menu(void) {
         printf("-----------------------------------------------------------------\n\n");
 
         printf("RESET PROGRESS [R]\n");
+        printf("THEME [T]\n");
         printf("GO BACK [B]\n\n");
 
         printf("ENTER SELECTION: ");
-        scanf(" %c", &selection);
-
-        if (selection >= 'A' && selection <= 'Z') {
-            selection = tolower(selection);
+        if (scanf(" %c", &selection) != 1) {
+            int c;
+            while ((c = getchar()) != '\n' && c != EOF);
+            continue;
         }
+        int c;
+        while ((c = getchar()) != '\n' && c != EOF);
+
+        selection = tolower(selection);
 
         switch (selection) {
         case 'r':
             system("cls");
             printf("\nAre you sure you want to reset all progress? (Y/N): ");
             char confirm;
-            scanf(" %c", &confirm);
-            if (confirm == 'y' || confirm == 'Y') {
-                reset_progress();
-                Sleep(1500);
+            if (scanf(" %c", &confirm) == 1) {
+                while ((c = getchar()) != '\n' && c != EOF);
+                if (confirm == 'y' || confirm == 'Y') {
+                    reset_progress();
+                    Sleep(1500);
+                }
+            } else {
+                while ((c = getchar()) != '\n' && c != EOF);
             }
+            break;
+
+        case 't':
+            theme_menu();
             break;
 
         case 'b':
@@ -231,4 +217,68 @@ void options_menu(void) {
 
 void reset_progress_menu(void) {
     options_menu();
+}
+
+void theme_menu(void) {
+    while (1) {
+        system("cls");
+        printf(BG_LEATHER GOLD);
+        printf("-----------------------------------------------------------------\n");
+        printf("|                         T H E M E S                            |\n");
+        printf("-----------------------------------------------------------------\n\n");
+
+        printf("Current theme: %d\n\n", current_theme + 1);
+        printf("CLASSIC [1] - Leather & Gold (Default)\n");
+        printf("DARK VOID [2] - Void & Ivory\n");
+        printf("CRIMSON NIGHT [3] - Oxblood & Crimson\n");
+        printf("PATINA GREEN [4] - Patina & Mint\n");
+        printf("STONE GRAY [5] - Stone & Ash\n");
+        printf("GO BACK [B]\n\n");
+
+        printf("ENTER SELECTION: ");
+        char selection;
+        if (scanf(" %c", &selection) != 1) {
+            int c;
+            while ((c = getchar()) != '\n' && c != EOF);
+            continue;
+        }
+        int c;
+        while ((c = getchar()) != '\n' && c != EOF);
+
+        selection = tolower(selection);
+
+        switch (selection) {
+        case '1':
+            current_theme = 0;
+            printf("\nTheme set to CLASSIC\n");
+            Sleep(1000);
+            break;
+        case '2':
+            current_theme = 1;
+            printf("\nTheme set to DARK VOID\n");
+            Sleep(1000);
+            break;
+        case '3':
+            current_theme = 2;
+            printf("\nTheme set to CRIMSON NIGHT\n");
+            Sleep(1000);
+            break;
+        case '4':
+            current_theme = 3;
+            printf("\nTheme set to PATINA GREEN\n");
+            Sleep(1000);
+            break;
+        case '5':
+            current_theme = 4;
+            printf("\nTheme set to STONE GRAY\n");
+            Sleep(1000);
+            break;
+        case 'b':
+            return;
+        default:
+            printf("\nInvalid selection.\n");
+            Sleep(1000);
+            break;
+        }
+    }
 }

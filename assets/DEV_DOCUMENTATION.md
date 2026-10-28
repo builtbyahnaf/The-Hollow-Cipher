@@ -698,8 +698,10 @@ The repository includes a root `Makefile` configured for compiling the project u
 | **4** | `TARGET = thc.exe` | Name of the final executable binary to produce. |
 | **5** | `SRC = main.c ...` | Space-separated list of all C source implementation files to compile. |
 | **6** | `OBJ = $(SRC:%.c=obj/%.o)` | **Substitution Reference:** Transforms each `.c` filename in `SRC` into its corresponding object file located inside the `obj/` folder (e.g., `main.c` $\to$ `obj/main.o`, `admin/cmd_edit.c` $\to$ `obj/admin/cmd_edit.o`). |
-| **8** | `.PHONY: all clean` | Informs Make that `all` and `clean` are **actions/commands**, not actual files on disk. This prevents collisions if a file named `clean` ever exists in the directory. |
+| **8** | `.PHONY: all clean clean-obj debug build-debug run` | Informs Make that `all`, `clean`, `clean-obj`, `debug`, `build-debug`, and `run` are **actions/commands**, not actual files on disk. |
 | **10** | `all: $(TARGET)` | Default rule when running `make` with no arguments. It depends on `$(TARGET)`. |
+| **Debug** | `build-debug`<br>`debug` | • `make build-debug`: Cleans objects and compiles with `-g -O0 -DTHC_DEBUG=1 -DDEBUG` without running.<br>• `make debug`: Compiles with debug flags and runs `thc.exe` to trigger debug diagnostics. |
+| **Run** | `run: $(TARGET)` | Builds (if needed) and executes the executable. |
 | **12-13**| `$(TARGET): $(OBJ)`<br>`$(CC) $(OBJ) -o $(TARGET)` | **Linking Phase:** Takes all compiled object files (`.o`) and invokes GCC to link them together into the final executable `thc.exe`. |
 | **15-17**| `obj/%.o: %.c`<br>`@if not exist obj mkdir obj`<br>`$(CC) $(CFLAGS) -c $< -o $@` | **Pattern Compilation Rule:** Converts any `.c` source file into an object file (`.o`). Runs Windows command `mkdir obj` if the directory does not exist. `-c` instructs GCC to compile only without linking. |
 | **19-21**| `clean:`<br>`@if exist obj rmdir /s /q obj`<br>`@if exist $(TARGET) del $(TARGET)` | Deletes the `obj/` build artifacts directory and the compiled executable to force a clean rebuild. |

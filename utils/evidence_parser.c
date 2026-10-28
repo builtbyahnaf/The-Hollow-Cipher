@@ -10,13 +10,19 @@
 static int ev_count = 0;
 static Evidence *ev_list = NULL;
 
+/*
+ * Clears dynamically allocated evidence items.
+ * Uses SAFE_FREE and untracks pointers from manual garbage collection.
+ */
 static void clear_evidence(void) {
     for (int i = 0; i < ev_count; i++) {
-        free(ev_list[i].name);
-        free(ev_list[i].description);
+        gc_untrack(ev_list[i].name);
+        SAFE_FREE(ev_list[i].name);
+        gc_untrack(ev_list[i].description);
+        SAFE_FREE(ev_list[i].description);
     }
 
-    free(ev_list);
+    SAFE_FREE(ev_list);
 
     ev_list = NULL;
     ev_count = 0;
@@ -35,7 +41,10 @@ static int append_description(char **description, const char *line) {
         return 0;
     }
 
+    /* Update pointer in GC registry if relocated by realloc */
+    gc_untrack(*description);
     *description = temp;
+    gc_track(*description);
 
     memcpy(
         *description + old_length,
@@ -84,9 +93,6 @@ Evidence *parse_evidence(FILE *file_path) {
             if (ev_list[ev_count].name == NULL ||
                 ev_list[ev_count].description == NULL) {
 
-                free(ev_list[ev_count].name);
-                free(ev_list[ev_count].description);
-
                 clear_evidence();
                 fclose(file_path);
                 return NULL;
@@ -94,12 +100,8 @@ Evidence *parse_evidence(FILE *file_path) {
 
             ev_count++;
         } else if (ev_count > 0) {
-            if (!append_description(
-                    &ev_list[ev_count - 1].description,
-                    line) ||
-                !append_description(
-                    &ev_list[ev_count - 1].description,
-                    "\n")) {
+            if (!append_description(&ev_list[ev_count - 1].description, line) ||
+                !append_description(&ev_list[ev_count - 1].description, "\n")) {
 
                 clear_evidence();
                 fclose(file_path);
@@ -123,4 +125,6 @@ int evidence_count(void) {
 
 void free_evidence(void) {
     clear_evidence();
+    /* Manual GC sweep to clean up any remaining tracked allocations */
+    gc_collect();
 }
