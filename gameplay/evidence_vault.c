@@ -17,7 +17,7 @@ void set_puzzle_passed(bool p){
 }
 
 bool is_vault_unlocked(void) {
-    return true;
+    return vault_unlocked;
 }
 
 int get_puzzle_password(void) {
@@ -37,16 +37,20 @@ void show_vault_puzzle(int _level){
         printf(BG_LEATHER GOLD);
 
         puzzle_password = generate_pass();
+        while (!has_unique_digits(puzzle_password)) {
+            puzzle_password = generate_pass();
+        }
 
         printf("-----------------------------------------------------------------\n");
         printf("|                  E V I D E N C E   V A U L T                   |\n");
         printf("-----------------------------------------------------------------\n\n");
 
-        int delay = 30;
-        char vault_text_1[] = "The evidences for this case are secured inside this vault. You have to guess the correct password by trial and error.\n\n"
-                                "The rules are as follows:\n\n";
+        int delay = 10;
+        char vault_text_1[] = "The evidences for this case are secured inside this vault. You have to guess the correct password by trial and error.\n"
+                              "All 5 digits in the password are unique (no repeating digits).\n\n"
+                              "The rules are as follows:\n\n";
         char vault_text_2[] = "The digit is present in the password and it is in the right position.\n";
-        char vault_text_3[] = "The digit is presemt in the password but it is in the wrong position.\n";
+        char vault_text_3[] = "The digit is present in the password but it is in the wrong position.\n";
         char vault_text_4[] = "The digit is absent in the password.\n";
 
     for (int i = 0; vault_text_1[i] != '\0'; i++) {
@@ -76,12 +80,29 @@ void show_vault_puzzle(int _level){
         Sleep(delay);
     }
     
-
+    /* Intro done — start the puzzle loop directly here so the vault header
+     * stays on screen while the player enters guesses. */
+    handle_puzzle(puzzle_password);
 }
 void handle_puzzle(int pass){
     if (is_puzzle_passed) {
         return;
     }
+
+    /*
+     * Password validation / fallback generation:
+     * Guarantees the secret passcode has 5 strictly unique digits.
+     * Example: 98651 is valid (all distinct digits).
+     * Example: 98151 is invalid (duplicate digit '1').
+     */
+    if (!has_unique_digits(pass)) {
+        pass = generate_pass();
+        while (!has_unique_digits(pass)) {
+            pass = generate_pass();
+        }
+        puzzle_password = pass;
+    }
+
     int guess = 0;
 
     int pd[5] = {
@@ -111,6 +132,16 @@ void handle_puzzle(int pass){
 
     if(guess < 10000 || guess > 99999){
         printf("Please enter a 5-digit number.\n");
+        goto RETRY;
+    }
+
+    /*
+     * Password guess validation:
+     * Enforces that every entered password guess has 5 unique digits.
+     * Example: 98651 is valid (all digits distinct), 98151 is invalid (duplicate '1').
+     */
+    if (!has_unique_digits(guess)) {
+        printf("Invalid password: All 5 digits must be unique (e.g. 98651 is valid, 98151 is invalid).\n");
         goto RETRY;
     }
 

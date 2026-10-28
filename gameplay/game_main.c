@@ -110,9 +110,7 @@ void handle_menu(int level) {
                 evidence_menu_init(level);
             } else {
                 show_vault_puzzle(level);
-                handle_puzzle(get_puzzle_password());
             }
-            system("cls");
             break;
 
         case 'i':
@@ -219,7 +217,7 @@ void submit_answer(int level) {
         }
     } else {
         fclose(sol_fp);
-        printf(RED "\n>>> INCORRECT <<<\n" RESET);
+        printf(RED "\n>>> INCORRECT <<<\n" GOLD);
         printf("\nThat's not the right answer. Keep investigating...\n");
     }
     

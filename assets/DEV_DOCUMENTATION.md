@@ -287,24 +287,40 @@ flowchart TD
 ### 4.7 Vault Security & Procedural Generator (`vault_pass.c`)
 
 - **Role:** Implements a numerical vault locking mechanism for investigative secrets.
-- **Procedural Code Generation Algorithm:**
+- **Unique-Digit Code Generation Algorithm:**
   ```c
   int generate_pass(void) {
-      long seed = 10000000L + rand() % 90000000L;
+      if (!seeded) {
+          srand((unsigned int)time(NULL));
+          seeded = true;
+      }
 
-      long step1 = seed >> 3;
-      long step2 = step1 << 2;
-      long step3 = step2 ^ 0xABCD;
-      long step4 = step3 & 0x7FFFFFFF;
+      int digits[10] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
 
-      int result = 10000 + (int)(step4 % 90000);
+      // Select leading digit from 1-9 to guarantee a valid 5-digit number >= 10000
+      int first_idx = 1 + (rand() % 9);
+      int temp = digits[0];
+      digits[0] = digits[first_idx];
+      digits[first_idx] = temp;
+
+      // Fisher-Yates shuffle the remaining indices to guarantee unique digits
+      for (int i = 9; i > 1; i--) {
+          int j = 1 + (rand() % i);
+          temp = digits[i];
+          digits[i] = digits[j];
+          digits[j] = temp;
+      }
+
+      int result = 0;
+      for (int i = 0; i < 5; i++) {
+          result = result * 10 + digits[i];
+      }
       return result;
   }
   ```
-  - **Bitwise Shifting (`>> 3`, `<< 2`):** Discards the 3 least significant bits and shifts left by 2 bits, introducing mathematical bit diffusion.
-  - **XOR Masking (`^ 0xABCD`):** Inverts specific bits according to the hexadecimal pattern `0xABCD` (`1010 1011 1100 1101` in binary).
-  - **Bitwise AND Mask (`& 0x7FFFFFFF`):** Clears the sign bit, guaranteeing the intermediate number is non-negative.
-  - **Modular Arithmetic (`10000 + (step4 % 90000)`):** Guarantees the output is strictly a 5-digit integer between `10000` and `99999`.
+  - **Leading Digit Non-Zero Guarantee:** Swaps `digits[0]` with a random element from `digits[1..9]`, ensuring the output integer is strictly between `10000` and `98765`.
+  - **Fisher-Yates Permutation:** Permutes remaining positions `1..9` so that `digits[0..4]` contain 5 distinct, uniformly distributed digits with zero repetition (e.g., `98651` is valid; `98151` is impossible to generate).
+  - **Validation & Guess Enforcement (`has_unique_digits`):** Both `evidence_vault.c` and `vault_pass.c` enforce that passcodes and player guesses contain strictly unique digits. Inputs with duplicate digits are rejected with feedback explaining the requirement.
 - **Vault State Management:**
   - `check_vault_unlocked(FILE *file)`: Reads an integer status flag from the file; returns `true` if `1`.
   - `set_vault_unlocked(FILE *file)`: Rewinds the file and writes `"1\n"`, followed by `fflush(file)` to force immediate flushing of the internal buffer to disk.

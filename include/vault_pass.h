@@ -6,22 +6,22 @@
 
 /*
  * =============================================================================
- * UNION IMPLEMENTATION: Dual-View Passcode Overlay
+ * UNION IMPLEMENTATION: Dual-View Passcode Representation
  * =============================================================================
- * An overlay union maps different representations over the exact same block of
- * bytes. Here, VaultPasscodeOverlay allows treating the generated 5-digit passcode
- * either as an integer (for arithmetic/comparison operations) or as an array of
- * characters (for string display and character-by-character analysis).
+ * Demonstrates a C union overlay. The union provides dual interpretations of the
+ * generated 5-digit passcode in memory:
+ *   - numeric_code: 32-bit signed integer representation for numerical operations.
+ *   - raw_bits: 32-bit unsigned representation for bitwise verification/masking.
  *
- * Both members occupy the same memory location, giving dual interpretations
- * without the overhead of runtime conversions.
+ * Both members occupy the exact same 4-byte memory location without runtime conversion.
  */
 typedef union {
     int numeric_code;
-    char digit_chars[6];
+    unsigned int raw_bits;
 } VaultPasscodeOverlay;
 
 int  generate_pass(void);
+bool has_unique_digits(int num);
 bool check_vault_unlocked(FILE *file);
 void set_vault_unlocked(FILE *file);
 
