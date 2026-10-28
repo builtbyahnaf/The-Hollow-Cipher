@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <string.h>
 #include "progress.h"
 #include <stdlib.h>
 #include <windows.h>
@@ -193,8 +194,19 @@ void submit_answer(int level) {
     
     if (is_ans_correct(response, sol_fp)) {
         fclose(sol_fp);
-        printf(GREEN "\n>>> CORRECT! <<<\n" RESET);
-        printf(GOLD);
+        sol_fp = NULL;
+
+        int delay = get_typewriter_delay();
+
+        char correct_text[] = "\n>>> CORRECT! <<<\n";
+        printf(GREEN);
+        for (int i = 0; correct_text[i] != '\0'; i++) {
+            printf("%c", correct_text[i]);
+            fflush(stdout);
+            Sleep(delay);
+        }
+        Sleep(300);
+        printf(BG_LEATHER GOLD);
         printf("\nWell done, detective. You've solved the case.\n");
         
         // Unlock next level
@@ -205,24 +217,46 @@ void submit_answer(int level) {
             printf("\nYou have completed all available levels!\n");
         }
         
-        // Show explanation
+        // Show explanation with typewriter animation
         sol_fp = fopen(sol_path, "r");
         if (sol_fp) {
             char *explanation = parse_solution_desc(sol_fp);
+            fclose(sol_fp);
+
             if (explanation) {
-                printf("\n--- EXPLANATION ---\n%s\n", explanation);
+                printf("\n--- EXPLANATION ---\n\n");
+
+                char *exp_text = strstr(explanation, "[Explanation]");
+                if (exp_text) {
+                    exp_text += 13;
+                    while (*exp_text == '\r' || *exp_text == '\n') {
+                        exp_text++;
+                    }
+                } else {
+                    exp_text = explanation;
+                }
+
+                for (int i = 0; exp_text[i] != '\0'; i++) {
+                    printf("%c", exp_text[i]);
+                    fflush(stdout);
+                    Sleep(3);
+                }
+                printf("\n");
+
                 free(explanation);
             }
-            fclose(sol_fp);
         }
     } else {
-        fclose(sol_fp);
+        if (sol_fp) {
+            fclose(sol_fp);
+        }
         printf(RED "\n>>> INCORRECT <<<\n" GOLD);
         printf("\nThat's not the right answer. Keep investigating...\n");
     }
     
     printf("\nPress any key to continue...");
     _getch();
+    show_level_selection();
 }
 
 static int typewriter_delay = 30; // Default delay in ms

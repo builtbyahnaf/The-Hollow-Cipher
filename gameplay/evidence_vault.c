@@ -2,6 +2,7 @@
 #include <windows.h>
 #include <stdlib.h>
 #include <evidence.h>
+#include "game_main.h"
 #include "vault_pass.h"
 #include "color_palette.h"
 
@@ -116,17 +117,22 @@ void handle_puzzle(int pass){
     RETRY:
 
     printf("\n\nEnter your guess (5 digits, or 0 to go back): ");
+
+    //Bug patch: Handling invalid input instead of crashing and causing infinite loop
     if (scanf("%d", &guess) != 1) {
         int c;
         while ((c = getchar()) != '\n' && c != EOF);
         printf("Please enter a valid 5-digit number.\n");
         goto RETRY;
     }
+
+
     int c;
     while ((c = getchar()) != '\n' && c != EOF);
 
     if (guess == 0) {
         system("cls");
+        load_level(level, false);
         return;
     }
 
