@@ -9,7 +9,7 @@
  * Game progress state array.
  * Level 1 (index 0) is hardcoded to always be unlocked (true).
  */
-static bool level_states[MAX_LEVELS] = {true, false};
+static bool level_states[MAX_LEVELS] = {true, false, false, false, false};
 
 bool is_signature_valid(FILE *pfile) {
     char signature[10];

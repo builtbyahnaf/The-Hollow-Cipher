@@ -23,21 +23,33 @@ void show_level_selection(void) {
 
         printf("LEVEL 2: THE MISSING NOTEBOOK");
         if (!is_level_unlocked(1)) printf(" [LOCKED]");
+        printf("\n");
+
+        printf("LEVEL 3: THE HIDDEN DESTINATION");
+        if (!is_level_unlocked(2)) printf(" [LOCKED]");
+        printf("\n");
+
+        printf("LEVEL 4: THE MAN WHO DEVELOPED THE DARK");
+        if (!is_level_unlocked(3)) printf(" [LOCKED]");
+        printf("\n");
+
+        printf("LEVEL 5: THE HOLLOW CIPHER");
+        if (!is_level_unlocked(4)) printf(" [LOCKED]");
         printf("\n\n");
 
-        printf("ENTER SELECTION (0-2): ");
+        printf("ENTER SELECTION (0-5): ");
         if (scanf("%d", &selected_level) != 1) {
             int c;
             while ((c = getchar()) != '\n' && c != EOF);
-            printf("Invalid input. Please enter a number between 0-2.\n");
+            printf("Invalid input. Please enter a number between 0-5.\n");
             Sleep(1000);
             continue;
         }
         int c;
         while ((c = getchar()) != '\n' && c != EOF);
 
-        if (selected_level < 0 || selected_level > 2) {
-            printf("Enter between 0-2. Please try again.\n");
+        if (selected_level < 0 || selected_level > 5) {
+            printf("Enter between 0-5. Please try again.\n");
             Sleep(1000);
             continue;
         } else if (selected_level == 0) {

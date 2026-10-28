@@ -1,15 +1,131 @@
 [Interrogation]
-[ Suspect 1: Jonathan Reeves ]
-Jonathan claims he was at home alone on the night of the incident. His alibi cannot be verified. He admits knowing the victim professionally but denies any personal conflict. When confronted with the anonymous tip matching his handwriting, he becomes defensive and refuses to provide a handwriting sample.
+[Durjo Das] 
+Durjo had been expecting the police. He arrived at the station carrying an umbrella despite the absence of rain. He placed it beside his chair, folded his hands, and asked whether Arindom had confessed.
+When told that Arindom was dead, he did not appear surprised. He appeared disappointed.
+Investigator: "You knew Arindom was arrested."
+Durjo: "Everyone in the newspaper knew."
+Investigator: "Did you know he was going to die?"
+Durjo: "No."
+Investigator: "You answered rather quickly."
+Durjo: "Would you prefer that I rehearse?"
+Durjo admitted that he had visited Arindom twice since the arrest. He claimed both visits concerned the newspaper's future. When asked whether they had discussed the notebook, he said Arindom had asked him a peculiar question.
+"Suppose you found something that proved your entire life had been built on a lie. Would you publish it?"
+Durjo claimed he had answered no. He was then asked why.
+"Because some truths do not liberate people. They simply tell them whom to hate."
+When confronted with the anonymous letter, Durjo studied the handwriting for nearly a minute.
+Then he smiled.
+"That's clever."
+Investigator: "What is?"
+Durjo: "Making you think the letter is evidence."
+He refused to elaborate.
+Before leaving, he requested a copy of the inscription found beneath Arindom's knees.
+The request was denied.
+As he stood to leave, he said something that was not entered into the official transcript until three days later.
+"Don't look for the notebook in a place. Look for it in a memory."
+Supplementary interview
+Durjo was recalled after investigators discovered that he had removed several newspaper records concerning Arif's investigation. He claimed the records had been destroyed because they contained the names of confidential sources. When asked whether he had taken Arif's notebook, he answered:
+"I wish I had."
+He then added, almost inaudibly:
+"At least then I would know what I was guilty of."
 
-[ Suspect 2: Margaret Holloway ]
-Margaret acknowledges the dinner with the victim but insists it was purely social. She claims the photograph was taken out of context. She admits the victim had threatened to expose her family's financial irregularities but says she had no motive to harm him. Her fingerprints were found on the lighthouse key.
+[Jawer Chakrovarty] 
+Jawer arrived before his summons was delivered. He told the police that Arindom's death had been inevitable. He said it without satisfaction, fear, or grief—as though discussing the collapse of a building whose foundations had been rotten for years.
+He denied possessing the notebook.
+He denied visiting the jail.
+He denied knowing how Arindom could have died inside a locked cell.
+When asked whether he believed the death was supernatural, he laughed.
+"Supernatural is what men call a crime when they cannot afford to accuse the criminal."
+Investigator: "You believe someone murdered him, then."
+Jawer: "I believe Arindom was afraid of something."
+Investigator: "Of whom?"
+Jawer looked directly at the investigator.
+"You tell me."
+He was shown a transcript of Arindom's final interrogation. Jawer read it carefully, then pointed to the sentence about the man who had taken the notebook and returned it.
+"That is not a confession."
+"What is it?"
+"A warning."
+"To whom?"
+Jawer placed the transcript on the table.
+"That depends on who has read it."
+He was asked about Evil Eye's Wrath. His expression changed only once: when the investigator mentioned the possibility that the group had infiltrated the newspaper.
+Jawer leaned forward.
+"Do not imagine that a secret organization must have secret rooms, secret handshakes, and men in masks. Sometimes it is simply a collection of people who agree that certain things must never become known."
+He refused to identify any members.
+When questioned about his visit to the newspaper archive, Jawer initially claimed that he had gone there to retrieve routine reporting material. However, the archive register confirmed that he had requested files concerning the same locations Arif had investigated.
+Mahir Hossain subsequently stated that Jawer had asked him to prepare duplicate photographs and instructed him not to enter the request in the ordinary catalogue. Jawer denied giving this instruction, but Mahir identified him without hesitation.
+When confronted with the discrepancy, Jawer changed his explanation. He admitted requesting the photographs but claimed he had done so at Arif's request. Arif was already dead when the request was recorded. Asked whether he had taken Arif's notebook, Jawer replied:
+"I never took anything from Arif's house."
+The investigator pointed out that the question concerned the notebook, not the house.
+Jawer remained silent for several seconds before answering:
+"Then you should ask whoever opened the vault."
+He refused to explain anything. His statement was recorded as a significant inconsistency in the investigation.
+Before the interview ended, he asked the investigator whether they had been sleeping properly.
+The question was dismissed as irrelevant.
+Jawer repeated it.
+"Because if you have begun dreaming about the notebook, you should tell me."
+Investigator: "Why?"
+"Because dreams are where people go when they can no longer trust their own memories."
 
-[ Suspect 3: Captain Elias Vane ]
-Captain Vane was the lighthouse keeper. He claims he gave the victim a key for "official business" but refuses to elaborate. He was seen near the lighthouse on the night in question. His logbook shows an unexplained gap between 11 PM and 2 AM.
+[Mahir Hossain]
+Mahir had photographed the original crime scene after Arif's murder. His photographs had since disappeared from the newspaper archive. He claimed that Jawer had asked him to make duplicate prints of several images.
+The images showed dead animals, mutilated bodies, and a series of locations connected to Arif's investigation.
+Mahir could not remember whether he had made the duplicates. He could remember, however, that one photograph had contained something that did not belong.
+A man standing behind Arif.
+The man was not present when the photograph was taken—or at least, Mahir could not recall seeing him.
+When the photograph was developed, the figure stood near a doorway. His face was obscured by darkness. His right hand rested against the doorframe. Mahir insisted that the figure's eyes had been visible.
+"They were looking at the camera."
+Investigator: "You said his face was obscured."
+Mahir: "The face was. Not the eyes."
+The photograph disappeared two days later.
+Mahir suspected Durjo because Durjo had access to the archive. Yet he admitted that Jawer had also visited the darkroom that evening.
+When shown a sketch of the inscription found in Arindom's cell, Mahir became visibly distressed. He said he had seen the same words before.
+Not on paper.
+Not on a wall.
+In a photograph that had been destroyed.
 
-[ Suspect 4: Dr. Adrian Croft ]
-The victim's personal physician. He prescribed a sedative to the victim on the day of the disappearance. The prescription was for a dose that could cause memory loss. Dr. Croft claims it was for insomnia but the dosage is unusually high. And he is a pure pile of shit.
+[Nayeem Ahmed]
+Nayeem insisted that the notebook had never entered the newspaper archive. He was responsible for cataloguing Arif's documents and could identify almost every report Arif had requested during the preceding six months. He claimed the journalist had been searching for records dating back to the early years of British administration in Dhaka. Some concerned unexplained deaths. Others described missing persons whose bodies had never been recovered.
+A particular series of documents had been removed from the archive shortly before Arif's murder.
+Nayeem blamed Durjo. Durjo had requested the documents under a false reference number, then denied ever receiving them. When asked whether Jawer had access to the same material, Nayeem hesitated.
+"Jawer did not need to borrow records."
+"Why not?"
+"He already knew where they were."
+Nayeem later produced a catalogue entry written in his own handwriting. It listed a notebook under a title he did not recognize:
+THE HOLLOW REGISTER — AUTHOR UNKNOWN.
+The entry was dated three days before Arif's death. Nayeem swore that he had never written it.
+The ink, however, was consistent with the ink used in the archive that week.
+[Shafiq Rahman]
+Shafiq had warned Arif to abandon his investigation. He had also warned Durjo, though he denied ever meeting Jawer. When informed of Arindom's death, Shafiq asked whether the eyes had been removed. The investigator had not yet mentioned that detail.
+Shafiq immediately claimed he had read it in the newspapers.
+No newspaper had published it.
+He was asked about the notebook.
+"Arif should have burned it."
+"Why?"
+"Because it was never a record of what happened."
+"What was it, then?"
+Shafiq looked at the door.
+"A record of what would happen next."
+He refused to explain further.
+Before the interview ended, he requested that the investigator write down the current date and time.
+When the investigator did so, Shafiq examined the paper and whispered:
+"Good. You still know which day it is."
+He was arrested for withholding information. Within hours, his cellmate reported that Shafiq had spent the night speaking to an empty corner. He had been asking someone to return his face.
 
-[ Suspect 5: Officer Raymond Pike ]
-The lead investigator on the case. He was the first to arrive at the scene. He failed to secure the lighthouse key as evidence. His phone records show a call to Suspect 1 at 11:45 PM on the night of the incident.
+[Kamal Uddin]
+Kamal was questioned because he had worked near the jail on the night Arindom died.
+He denied entering the prison block.
+He denied seeing anyone approach the cell.
+He admitted, however, that he had heard footsteps on the iron staircase shortly before 3 AM.
+The footsteps descended. They never reached the ground.
+When asked what that meant, Kamal said that he had heard the sound of someone walking down the staircase, yet no person had appeared at its foot. He initially believed it to be a prisoner attempting to escape.
+Later, he wondered whether it had been a guard.
+Now he was not certain that the footsteps had belonged to a living person. Kamal was shown the seven-word inscription.
+He refused to read it aloud.
+Instead, he turned the paper face down and said:
+"That is not a message."
+"What is it?"
+"A door."
+The investigator raised his eyebrows at the statement. A door?
+He was dismissed from the investigation after his testimony became increasingly inconsistent. Two days later, he submitted a written statement claiming that he had never worked at the jail.
+The signature at the bottom was his.
+The handwriting was not.

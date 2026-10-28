@@ -1,7 +1,7 @@
 #ifndef PROGRESS_H
 #define PROGRESS_H
 
-#define MAX_LEVELS 2
+#define MAX_LEVELS 5
 
 /*
  * =============================================================================

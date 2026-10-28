@@ -1,15 +1,36 @@
-[Time] 14th March, 1997 | 11:47 PM
-[Location] East Point Lighthouse, Harbor District
+[Time] 14th October, 1887 | 3:17 AM
+[Location] Dhaka Central Jail, Dhaka
 [Statement]
-The fog was thicker than usual that night. Officer Pike arrived first, flashlight cutting through the mist. He found the victim's body at the base of the lighthouse stairs. The official report said accidental fall. But the bruising on the wrists suggested restraint. The sedative in the bloodstream matched Dr. Croft's prescription. The lighthouse key in the victim's pocket had been used that night - the lock showed fresh wear.
-
-The torn photograph in the fireplace. The anonymous tip in Pike's desk. The missing ledger page. Every piece pointed to a conspiracy, not an accident.
-
-Pike closed the case in 48 hours. "Accidental death. No foul play suspected." His partner's name was on the missing ledger page. So was the Chief of Police. So was the Mayor's nephew.
-
-The victim wasn't just investigating smuggling. He was building a RICO case against the entire harbor power structure. And someone made sure he never filed it.
-
-The lighthouse still stands. Vane still tends it, though the light hasn't worked in years. Sometimes, on foggy nights, locals swear they see a figure at the top window. Writing. Watching. Waiting for someone to read the page that was never found.
+Nine days had passed since Arif Rahman was murdered.
+Nine days since the notebook disappeared from his steel vault.
+Nine days since the name Evil Eye's Wrath had begun circulating among men who publicly denied that such a thing existed.
+The police had arrested Arindom Kumar Biswas, chief editor of the newspaper where Arif had worked. The case against him was not perfect, but it was sufficient to convince the authorities that the man who had spent eleven years deciding which truths could be printed had finally become afraid of one.
+The notebook, however, remained missing.
+Arindom had denied possessing it. He had denied knowing what it contained. He had denied involvement in Arif's death until his interrogators stopped asking questions and began repeating his own words back to him.
+Then he had asked for a sheet of paper. On it, he wrote a sentence:
+“The man who took it has already returned it.”
+He refused to explain.
+At 11:40 PM, Arindom was escorted to his cell. Two guards watched the corridor. A third remained at the far end, beside the iron staircase. The cell was inspected before he entered. Its only window was barred, its door secured from the outside, and its walls were too thick for a man to pass through.
+At 2:51 AM, a guard reported hearing a low sound from inside the cell.
+Not a cry. Not a struggle. A rhythmic murmur, as though someone were reciting a prayer in a language he had never learned.
+The guard approached the door and called Arindom's name. The murmuring stopped.
+When the guards opened the cell at 3:17 AM, Arindom Kumar Biswas was dead.
+He knelt on the stone floor, his back unnaturally straight, his hands pressed together before his chest. His head was bowed. His bare feet rested parallel to one another, and his body showed none of the disorder expected from a violent struggle.
+His eyes had been torn from their sockets. There was blood on his cheeks, but remarkably little on the floor. No weapon was found. The door had remained locked. The corridor guards swore that nobody had entered or left. The window bars were intact. No other prisoner reported seeing anything unusual. Yet the coroner discovered something that made the circumstances considerably worse.
+Arindom's fingers were stained with fresh black ink.
+Beneath the fingernails of his right hand lay a few fibres of old paper. And carved into the stone directly beneath his knees were seven words:
+“YOU HAVE ALREADY FOUND WHAT YOU SEEK.”
+The jail authorities called it suicide. The police called it an impossibility. By sunrise, someone had delivered an anonymous letter to the investigator assigned to the case.
+It contained a single line:
+“Ask Durjo Das what happened to the notebook.”
+The handwriting appeared familiar.
+It was the investigator's own.
+The notebook had not been recovered despite repeated searches of Arif's residence, the newspaper's offices, and Arindom's chambers. The steel vault in which Arif kept it had been opened without visible damage, suggesting that whoever took it either knew how to operate the lock or had obtained access to its key.
+During the investigation, the police established that Jawer Chakrovarty had visited the newspaper archive on the evening before Arif's murder. He had requested access to several files connected to Arif's investigation, although he later denied knowing the full extent of Arif's work.
+More troublingly, Jawer had asked Mahir Hossain to prepare duplicate photographs of locations associated with Evil Eye's Wrath. Those photographs disappeared shortly before Arif was killed.
+The missing photographs and the missing notebook shared a common subject: Arif's investigation. Yet Jawer continued to insist that he knew nothing about the notebook's contents.
+Arindom's death had initially strengthened the suspicion that the notebook had been taken to silence him. However, the notebook's continued absence raised another possibility. Perhaps Arindom had never possessed it at all.
+If so, the question was no longer whether Arindom had hidden the notebook, but…
 
 [Question]
-Who orchestrated the victim's death and why?
+Who had removed it before the investigation could reach him?

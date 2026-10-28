@@ -12,15 +12,18 @@
 
 enum LEVELS {
     LEVEL_1 = 1,
-    LEVEL_2 = 2
+    LEVEL_2 = 2,
+    LEVEL_3 = 3,
+    LEVEL_4 = 4,
+    LEVEL_5 = 5
 };
 
 enum OPTIONS {
-    EVIDENCE = 11,
-    INTERROGATION = 22,
-    PAST_HISTORY = 33,
-    SOLUTION = 44,
-    STATEMENT = 55
+    EVIDENCE = 1,
+    INTERROGATION = 2,
+    PAST_HISTORY = 3,
+    SOLUTION = 4,
+    STATEMENT = 5
 };
 
 /*
@@ -32,14 +35,14 @@ enum OPTIONS {
  * packing, stripping all internal and trailing padding.
  *
  * EditSelection combines bit-fields with packing:
- *   - selected_menu occupies 6 bits (range 0 to 63, sufficient for menu IDs).
- *   - selected_level occupies 2 bits (range 0 to 3, covering level indices).
- * Total: 6 + 2 = 8 bits = exactly 1 byte in memory.
+ *   - selected_menu occupies 5 bits (range 0 to 31, sufficient for menu IDs 1-5).
+ *   - selected_level occupies 3 bits (range 0 to 7, covering level indices 1-5).
+ * Total: 5 + 3 = 8 bits = exactly 1 byte in memory.
  */
 #pragma pack(push, 1)
 typedef struct {
-    unsigned int selected_menu : 6;
-    unsigned int selected_level : 2;
+    unsigned int selected_menu : 5;
+    unsigned int selected_level : 3;
 } EditSelection;
 #pragma pack(pop)
 
@@ -127,9 +130,12 @@ void select_level(void) {
 
         printf("TO GO BACK, ENTER 0 (ZERO)\n\n");
         printf("LEVEL 1: THE SILENT PATIENT\n");
-        printf("LEVEL 2: THE MISSING NOTEBOOK\n\n");
+        printf("LEVEL 2: THE MISSING NOTEBOOK\n");
+        printf("LEVEL 3: THE HIDDEN DESTINATION\n");
+        printf("LEVEL 4: THE MAN WHO DEVELOPED THE DARK\n");
+        printf("LEVEL 5: THE HOLLOW CIPHER\n\n");
 
-        printf("ENTER SELECTION: ");
+        printf("ENTER SELECTION (0-5): ");
         if (scanf("%d", &selection) != 1) {
             int c;
             while ((c = getchar()) != '\n' && c != EOF);
@@ -140,7 +146,7 @@ void select_level(void) {
         int c;
         while ((c = getchar()) != '\n' && c != EOF);
 
-        if (selection < 0 || selection > 2) {
+        if (selection < 0 || selection > 5) {
             printf("Error: Invalid level\n");
             Sleep(1000);
             continue;
@@ -220,7 +226,7 @@ void write_log(int LEVEL, int COMPONENT) {
 }
 
 void open_editor(int LEVEL, int COMPONENT) {
-    if (LEVEL < 1 || LEVEL > 2) {
+    if (LEVEL < 1 || LEVEL > 5) {
         printf("Error: Invalid level\n");
         return;
     }

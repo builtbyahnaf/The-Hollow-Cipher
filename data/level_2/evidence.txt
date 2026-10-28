@@ -1,14 +1,115 @@
-1. The Blood-Stained Letter
-Found in the victim's pocket. Partially burned. Written in hurried handwriting. Mentions a meeting at the lighthouse on the night of the disappearance. The ink matches the typewriter ribbon from the suspect's office.
+[Evidences]
+[ The Prayer Position ]
+Arindom's body was found kneeling, his hands clasped before his chest. His spine was unusually straight, and his head was inclined at an angle inconsistent with the natural collapse of a dying man.
+The initial report described the posture as an attempt at prayer.
+The coroner disagreed.
+The position required either deliberate arrangement or an unusual degree of muscular control at the moment of death. There were no restraints on the body. No marks on the wrists suggested that Arindom had been bound. His knees showed bruising consistent with prolonged pressure against the stone.
+Investigation note: The posture was probably deliberate. Whether Arindom arranged himself, another person arranged him, or something else influenced his body remains unresolved.
+[ The Missing Eyes ]
+Both of Arindom's eyes had been removed. The surrounding injuries were severe, but there was remarkably little blood on the floor.
+No instrument capable of causing the injuries was recovered.
+The coroner found no evidence that the eyes had been removed after death. The injuries appeared to have occurred while Arindom was still alive, although the precise sequence could not be established. A further detail was recorded in the medical report: the muscles around his eyes had contracted in a way that suggested extreme distress.
+One guard claimed Arindom had been looking directly at him through the cell door shortly before the body was discovered.
+The guard later withdrew the statement. He insisted that he had never seen Arindom's face that night.
+Investigation note: The missing eyes may connect Arindom's death to the mutilations investigated by Arif. The connection is suggestive, not conclusive.
+[ The Seven-Word Inscription ]
+The inscription beneath Arindom's knees reads:
+“YOU HAVE ALREADY FOUND WHAT YOU SEEK.”
+The carving appears fresh. However, no stone fragments or carving tool were recovered from the cell.
+The words contain no obvious cipher. Their letter forms are consistent with common English handwriting, although the spacing is unusual. A specialist comparing the inscription with Arif's recovered papers identified similarities in the shape of the letter Y and the final stroke of the letter K.
+A second specialist identified similarities with the investigator's handwriting.
+Neither conclusion could be verified independently.
+Investigation note: The inscription appears designed to implicate someone familiar with the case. It may also be designed to make the investigator suspect their own involvement.
+[ The Archive Register ]
+The newspaper's archive register confirms that Jawer Chakrovarty accessed files connected to Arif's investigation on the evening before the murder. The requested files concerned locations later identified in the missing notebook's surviving references.
+Mahir Hossain independently confirmed that Jawer requested duplicate photographs relating to those locations. The photographs subsequently disappeared from the archive.
+When questioned, Jawer first denied requesting the photographs, then admitted doing so but claimed Arif had instructed him to prepare them. The date of the request contradicts this explanation, as Arif was already dead.
+Jawer's knowledge of the vault's condition, his concealed access to related records, and his contradictory statements establish that he deliberately withheld information about the notebook's disappearance.
 
-2. The Lighthouse Key
-A brass key with "East Point Light" stamped on the tag. Found in the desk drawer of Suspect 3. Fingerprints match both the victim and Suspect 3.
-
-3. The Torn Photograph
-Recovered from the fireplace. Shows the victim with Suspect 2 at a private dinner two weeks before the incident. The back reads "Insurance policy - just in case."
-
-4. The Missing Ledger Page
-The victim's financial ledger has a page torn out. The adjacent page shows a payment of $50,000 to "J. R." dated three days before the disappearance.
-
-5. The Anonymous Tip
-A letter received by police two days after the incident. Claims the victim was planning to expose a smuggling ring operating through the harbor. Handwriting analysis matches Suspect 1.
+[ The Black Ink ]
+Black ink was recovered from beneath Arindom's fingernails. The substance was consistent with ink used in the newspaper's archive. The ink contained traces of a mineral pigment that was not commonly used in ordinary correspondence.
+Nayeem identified the ink as belonging to a restricted collection of archival materials.
+He could not explain how Arindom obtained it.
+The ink was still slightly wet when the body was discovered.
+No pen was found in the cell.
+[ The Paper Fibres ]
+Several fibres were found beneath Arindom's fingernails. Their composition matched the paper used in Arif's notebook. The fibres were too small to identify a particular page.
+One fibre contained a faint impression of a handwritten letter. Under magnification, it resembled the upper curve of a capital D.
+The coroner's report described the finding as insignificant.
+The investigator's copy of the report contained a handwritten annotation beside the finding:
+Durjo.
+No officer admitted writing it.
+[ The Anonymous Witness ]
+(Identity Withheld)
+Three days after Arindom's death, a letter arrived at the investigator's residence.
+It contained a detailed description of the cell, including the position of Arindom's hands, the direction of his bowed head, and the exact location of the inscription.
+The writer claimed to have witnessed the death. According to the letter, Arindom had not been alone. Someone had stood directly behind him. The guards had not seen the figure because they had been looking at the door. The figure had not touched Arindom.
+It had merely whispered something into his ear.
+The letter ended:
+“He removed his own eyes because he could no longer bear to see what he had remembered.”
+But the man who whispered to him did not have a face.
+There was no signature. The paper had been torn from the same type of notebook Arif used.
+The investigator's final note on the document reads:
+“Either the witness is lying, or the witness is not human.”
+[ The Locked Cell ]
+The cell door had been secured from the outside. The lock showed no signs of tampering, and the key remained in the possession of the guard responsible for the block. The window bars were intact. The walls showed no concealed opening. No passage or ventilation shaft was large enough for a person to enter. The floor had been examined for hidden mechanisms. None was found.
+Nevertheless, a narrow line of dampness ran from the rear wall to the place where Arindom had knelt.
+The water was chemically similar to rainwater collected outside the jail.
+The night had been dry.
+[ The Anonymous Letter ]
+The letter delivered to the investigator read:
+“Ask Durjo Das what happened to the notebook.”
+The handwriting resembled the investigator's own.
+The paper came from an ordinary stationery supply, but the writing instrument appeared to have been a fountain pen unavailable for purchase in Dhaka at the time.
+No fingerprints were recovered. The letter's envelope bore no address, postage, or identifying mark.
+A second examination revealed faint pressure impressions beneath the visible sentence. When the sheet was examined under angled light, the impression of another line became partially legible:
+“You will believe the next person who tells you he is afraid.”
+No one could establish whether the hidden line had been written before or after the visible one.
+[ The Archive Catalogue ]
+The catalogue entry for The Hollow Register was genuine. Its handwriting was consistent with Nayeem's, and the ink matched the archive's records. However, the entry appeared in a volume that had been locked in the archive for six months.
+The entry was dated three days before Arif's death. 
+The listed item had no shelf number, no author, and no recorded date of acquisition. A small symbol had been drawn beside the title: a circle with a vertical line through its centre. 
+Jawer recognized the symbol immediately. He claimed it was a printer's mark.
+No other member of the newspaper staff could confirm this.
+[ The Photograph That Should Not Exist ]
+Mahir's account described a photograph containing a faceless figure with visible eyes.
+The original negative was never recovered.
+However, a duplicate print appeared inside an envelope delivered anonymously to the police. It showed Arif standing in a narrow corridor, his back turned to the camera. At the far end stood a second figure. The figure's face was obscured.
+Its eyes were not.
+The photograph's date could not be verified. The paper was consistent with materials used by Mahir, but the image contained an architectural detail that did not match any location associated with Arif's known investigations. When Mahir examined it, he began to tremble.
+He claimed the photograph showed a room he had never visited.
+Then he asked the police to burn it.
+[  The Guard's Testimony ]
+The guard who first heard the murmuring described a voice reciting words in an unknown language. He later claimed the voice had been speaking Bengali.
+In his third statement, he insisted the voice had sounded exactly like his own.
+The guard was removed from duty after becoming unable to distinguish between his recorded testimony and his recollection of the night. During a medical examination, he repeatedly asked whether he had already given the same answers.
+He had.
+Several times.
+[ The Returned Page ]
+A single page from Arif's notebook was found beneath a loose floorboard in the newspaper archive. The page contained a list of names. Most were illegible, but three could be read:
+Durjo Das
+Jawer Chakrovarty
+Arindom Kumar Biswas
+Beside Durjo's name was a small mark resembling an eye.
+Beside Arindom's name was a black circle.
+Jawer's name had been crossed out so heavily that the paper had nearly torn.
+At the bottom of the page, Arif had written:
+The one who is easiest to accuse is rarely the one who needs to hide.
+The handwriting was unquestionably Arif's.
+The page was dated 12th October, seven days after his death. No explanation for the date was found.
+[ The Investigator's Notes ]
+The investigator's casebook contained several entries that they did not remember writing. One read:
+Durjo is lying. The paper proves it.
+Another read:
+Jawer must not be questioned alone.
+A third had been written in the margin beside the list of suspects:
+Do not trust the person who agrees with you.
+The entries were in the investigator's handwriting. The paper showed no signs of alteration or erasure. When asked about the notes, the investigator denied writing them.
+The casebook was sealed.
+The following morning, the seal was intact. A new sentence had appeared on the last page:
+You are doing very well.
+The investigator opened a file locked in his drawer.
+Jawer has an unusual talent for recognizing the assumptions underlying a question. Rather than answering directly, he frequently reframes the question until the investigator begins defending their own reasoning.
+His association with Evil Eye's Wrath remains unconfirmed at the beginning of the case. But now, something unusual has been reported by the spy agents.
+He does, indeed, know the mechanisms of the notebook.
+He knows how to manipulate people while not loosing his cool. Fariha said he had murdered 3 people the next day Arindom died.

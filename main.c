@@ -169,7 +169,7 @@ void options_menu(void) {
         printf("-----------------------------------------------------------------\n\n");
 
         printf("RESET PROGRESS [R]\n");
-        printf("THEME [T]\n");
+        //printf("THEME [T]\n");
         printf("GO BACK [B]\n\n");
 
         printf("ENTER SELECTION: ");
@@ -192,16 +192,19 @@ void options_menu(void) {
                 while ((c = getchar()) != '\n' && c != EOF);
                 if (confirm == 'y' || confirm == 'Y') {
                     reset_progress();
-                    Sleep(1500);
+                    Sleep(1000);
+                    system("cls");
+                    game_init();
                 }
             } else {
                 while ((c = getchar()) != '\n' && c != EOF);
             }
             break;
-
+        /*
         case 't':
             theme_menu();
             break;
+            */
 
         case 'b':
             system("cls");
